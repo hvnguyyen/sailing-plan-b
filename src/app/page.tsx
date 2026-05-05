@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import ScrollGallery from '@/components/ui/ScrollGallery'
 
 export default function Home() {
   return (
@@ -48,6 +49,7 @@ export default function Home() {
         </div>
 
       </section>
+      <ScrollGallery />
     </main>
   )
 }
