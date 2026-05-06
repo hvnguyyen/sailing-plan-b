@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react'
 const links = [
   { href: '/', label: 'Home' },
   { href: '/blog', label: 'Blog' },
+  { href: '/gallery', label: 'Gallery' },
   { href: '/about', label: 'About' },
 ]
 
@@ -108,7 +109,7 @@ export default function Navbar() {
           rel="noopener noreferrer"
           className="font-[family-name:var(--font-mono)] text-xs tracking-widest uppercase text-white/40 hover:text-white transition-colors duration-200 mt-4"
         >
-          Instagram ↗
+          Instagram
         </a>
       </div>
     </>
