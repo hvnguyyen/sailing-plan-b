@@ -49,12 +49,11 @@ export default function AboutPage() {
               Born 10 Sep 2001 · Age 24
             </p>
             <h3 className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl font-bold text-navy mb-3 md:mb-4">
-              Ulrik
+              Ulrik Gjersøe Kjærgaard
             </h3>
             <p className="font-[family-name:var(--font-lora)] text-sm md:text-base text-navy/70 leading-relaxed text-justify">
-              Grew up around boats on the Oslofjord, always chasing the next adventure. 
-              Trained carpenter with a plan that had nothing to do with carpentry 
-              who one day decided a 40-year-old sailboat and the open ocean was a perfectly reasonable next step.
+              Grew up in an active family, and has never really stopped moving since. 
+              Trained carpenter who can't sit still long enough to stick to one thing, so naturally, he bought a 40-year-old sailboat and decided sailing the world was next.
             </p>
           </div>
 
@@ -69,12 +68,12 @@ export default function AboutPage() {
               Born 11 Nov 2002 · Age 23
             </p>
             <h3 className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl font-bold text-navy mb-3 md:mb-4">
-              Karen
+              Karen Wiik Olaussen
             </h3>
             <p className="font-[family-name:var(--font-lora)] text-sm md:text-base text-navy/70 leading-relaxed text-justify">
-              Studying technical design while underway. Brand new to sailing when they left the dock —
-              now learning every system, every knot, every weather window. The one who keeps
-              everything together.
+              The one behind the camera, most of the photos you'll find here are hers. 
+              She had zero sailing experience when they cast off the lines, but that hasn't slowed her down. 
+              Turns out she picks things up fast when the alternative is the open ocean.           
             </p>
           </div>
         </div>

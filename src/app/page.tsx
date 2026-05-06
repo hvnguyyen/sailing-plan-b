@@ -21,7 +21,7 @@ export default function Home() {
           </h1>
 
           <p className="font-[family-name:var(--font-lora)] italic text-sand/70 text-base md:text-xl mt-4 md:mt-6 max-w-xs md:max-w-md mx-auto">
-            Ulrik & Karen — trading land for sea, one nautical mile at a time.
+            Two people from Nøtterøy, Norway.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-4 mt-8 md:mt-10">
@@ -43,7 +43,7 @@ export default function Home() {
         {/* Scroll indicator */}
         <div className="absolute bottom-8 md:bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
           <span className="font-[family-name:var(--font-mono)] text-[0.6rem] tracking-[0.2em] uppercase text-white/30">
-            scroll
+            scroll for photos
           </span>
           <div className="w-px h-8 md:h-10 bg-gradient-to-b from-white/30 to-transparent" />
         </div>
