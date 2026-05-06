@@ -35,26 +35,26 @@ export default function ScrollGallery() {
   }, [])
 
   return (
-    <section className="bg-cream py-32 px-8">
-      <div className="max-w-4xl mx-auto">
+    <section className="bg-cream py-16 md:py-32">
+  <div className="max-w-6xl mx-auto px-4 md:px-0">
 
         <div className="text-center mb-20">
           <p className="font-[family-name:var(--font-mono)] text-xs tracking-[0.25em] uppercase text-red mb-4">
             On board
           </p>
           <h2 className="font-[family-name:var(--font-playfair)] text-5xl font-bold text-navy">
-            Life on <span className="italic">Plan B</span>
+            Life on <span className="italic whitespace-nowrap">Plan B</span>
           </h2>
         </div>
 
-        <div className="space-y-24">
+        <div className="space-y-12 md:space-y-24">
           {images.map((image, i) => (
             <div
               key={image.src}
               ref={(el: HTMLDivElement | null) => { itemRefs.current[i] = el }}
-              className={`opacity-0 translate-y-16 transition-all duration-700 ease-out ${
-                i % 2 === 0 ? 'ml-0 mr-auto max-w-2xl' : 'ml-auto mr-0 max-w-2xl'
-              }`}
+              className={`opacity-0 translate-y-16 transition-all duration-700 ease-out w-full md:w-3/4 ${
+  i % 2 === 0 ? 'mr-auto' : 'ml-auto'
+}`}
             >
               <div className="relative aspect-[4/3] w-full overflow-hidden">
                 <Image
