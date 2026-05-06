@@ -13,7 +13,7 @@ export default function AboutPage() {
           Ulrik <span className="italic text-sand">&</span> Karen
         </h1>
         <p className="font-[family-name:var(--font-lora)] italic text-sand/60 text-base md:text-lg mt-4 md:mt-6">
-          Two people from Nøtterøy with one big idea.
+          Two people from Norway with one big idea.
         </p>
       </section>
 
@@ -22,14 +22,14 @@ export default function AboutPage() {
 
         {/* The Plan B story */}
         <div className="mb-10 md:mb-16 lg:mb-20">
-          <p className="font-[family-name:var(--font-mono)] text-xs tracking-[0.2em] uppercase text-red mb-3 md:mb-4">
+          <p className="font-[family-name:var(--font-lora)] text-base md:text-lg leading-relaxed text-navy/70 text-justify">
             On the name
           </p>
           <h2 className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl lg:text-4xl font-bold text-navy mb-4 md:mb-6">
             It was always <span className="italic whitespace-nowrap">Plan A</span>
           </h2>
           <p className="font-[family-name:var(--font-lora)] text-base md:text-lg leading-relaxed text-navy/70">
-            The boat came with the name. But somewhere along the way, it started to make perfect sense —
+            The boat came with the name. But somewhere along the way, it started to make perfect sense,
             because this was never really a backup plan. Leaving the dock, trading routine for open water,
             learning as you go. For Ulrik and Karen, Plan B has always been the plan.
           </p>
@@ -51,7 +51,7 @@ export default function AboutPage() {
             <h3 className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl font-bold text-navy mb-3 md:mb-4">
               Ulrik
             </h3>
-            <p className="font-[family-name:var(--font-lora)] text-sm md:text-base text-navy/70 leading-relaxed">
+            <p className="font-[family-name:var(--font-lora)] text-sm md:text-base text-navy/70 leading-relaxed text-justify">
               Trained carpenter, now studying structural engineering from the chart table.
               Grew up around boats on the Nøtterøy coast — never offshore, but always comfortable
               on the water. The one who got them here.
@@ -71,7 +71,7 @@ export default function AboutPage() {
             <h3 className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl font-bold text-navy mb-3 md:mb-4">
               Karen
             </h3>
-            <p className="font-[family-name:var(--font-lora)] text-sm md:text-base text-navy/70 leading-relaxed">
+            <p className="font-[family-name:var(--font-lora)] text-sm md:text-base text-navy/70 leading-relaxed text-justify">
               Studying technical design while underway. Brand new to sailing when they left the dock —
               now learning every system, every knot, every weather window. The one who keeps
               everything together.
@@ -87,15 +87,15 @@ export default function AboutPage() {
           <h2 className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl lg:text-4xl font-bold text-navy mb-4 md:mb-6">
             A 1984 Najad 343
           </h2>
-          <div className="w-full aspect-video bg-navy/10 mb-4 md:mb-6 flex items-center justify-center">
-            <span className="font-[family-name:var(--font-mono)] text-xs tracking-widest uppercase text-navy/30">
-              Photo coming
-            </span>
-          </div>
-          <p className="font-[family-name:var(--font-lora)] text-base md:text-lg leading-relaxed text-navy/70">
+          <img
+              src="/images/IMG_0981.jpg"
+              alt="Ulrik"
+              className="w-full aspect-[4/3] object-cover mb-4 md:mb-6"
+            />
+          <p className="font-[family-name:var(--font-lora)] text-base md:text-lg leading-relaxed text-navy/70 text-justify">
             Built in Sweden in 1984, the Najad 343 is a classic offshore cruiser known for its
             robust build and sea-kindly hull. Red hull, reliable bones, and just enough space for
-            two people and a big dream. She came with the name Plan B — and she's earning it.
+            two people and a big dream. She came with the name Plan B, and she's earning it.
           </p>
         </div>
 
