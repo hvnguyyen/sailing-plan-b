@@ -1,4 +1,12 @@
-export default function BlogPage() {
+import Link from 'next/link'
+import { client } from '@/lib/sanity'
+import { postsQuery } from '@/lib/queries'
+
+export const revalidate = 60
+
+export default async function BlogPage() {
+  const posts = await client.fetch(postsQuery)
+
   return (
     <main className="bg-cream">
       <section className="bg-navy text-white pt-28 md:pt-36 lg:pt-40 pb-16 md:pb-20 lg:pb-24 px-8 text-center">
@@ -10,13 +18,52 @@ export default function BlogPage() {
         </h1>
       </section>
 
-      <section className="max-w-3xl mx-auto px-8 py-16 md:py-20 lg:py-24 text-center">
-        <p className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl lg:text-4xl italic text-navy/30">
-          The log is empty, for now.
-        </p>
-        <p className="font-[family-name:var(--font-lora)] text-sm md:text-base text-navy/40 mt-4">
-          First entry incoming when the lines are cast off.
-        </p>
+      <section className="max-w-3xl mx-auto px-8 py-16 md:py-20 lg:py-24">
+        {posts.length === 0 ? (
+          <div className="text-center">
+            <p className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl italic text-navy/30">
+              The log is empty — for now.
+            </p>
+            <p className="font-[family-name:var(--font-lora)] text-sm md:text-base text-navy/40 mt-4">
+              First entry incoming when the lines are cast off.
+            </p>
+          </div>
+        ) : (
+          <div className="divide-y divide-navy/10">
+            {posts.map((post: any) => (
+              <Link
+                key={post._id}
+                href={`/blog/${post.slug.current}`}
+                className="group flex flex-col md:flex-row md:items-baseline gap-2 md:gap-10 py-10 hover:opacity-70 transition-opacity duration-200"
+              >
+                <div className="shrink-0 md:w-48">
+                  <p className="font-[family-name:var(--font-mono)] text-xs tracking-widest uppercase text-red">
+                    {new Date(post.publishedAt).toLocaleString('en-GB', {
+                    day: 'numeric',
+                    month: 'short',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                  })}
+                  </p>
+                  {post.location && (
+                    <p className="font-[family-name:var(--font-mono)] text-xs tracking-wider uppercase text-navy/40 mt-1">
+                      {post.location}
+                    </p>
+                  )}
+                </div>
+                <div>
+                  <h2 className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl font-bold text-navy mb-2 group-hover:italic transition-all duration-200">
+                    {post.title}
+                  </h2>
+                  <p className="font-[family-name:var(--font-lora)] italic text-navy/60 text-sm md:text-base leading-relaxed">
+                    {post.excerpt}
+                  </p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
       </section>
     </main>
   )

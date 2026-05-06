@@ -52,19 +52,19 @@ export default function AboutPage() {
               Ulrik
             </h3>
             <p className="font-[family-name:var(--font-lora)] text-sm md:text-base text-navy/70 leading-relaxed text-justify">
-              Trained carpenter, now studying structural engineering from the chart table.
-              Grew up around boats on the Nøtterøy coast — never offshore, but always comfortable
-              on the water. The one who got them here.
+              Grew up around boats on the Oslofjord, always chasing the next adventure. 
+              Trained carpenter with a plan that had nothing to do with carpentry 
+              who one day decided a 40-year-old sailboat and the open ocean was a perfectly reasonable next step.
             </p>
           </div>
 
           {/* Karen */}
           <div className="border border-navy/10 p-6 md:p-8 bg-white">
-            <div className="w-full aspect-[4/3] bg-navy/10 mb-4 md:mb-6 flex items-center justify-center">
-              <span className="font-[family-name:var(--font-mono)] text-xs tracking-widest uppercase text-navy/30">
-                Photo coming
-              </span>
-            </div>
+            <img
+              src="/images/IMG_0991.jpg"
+              alt="karen"
+              className="w-full aspect-[4/3] object-cover mb-4 md:mb-6"
+            />
             <p className="font-[family-name:var(--font-mono)] text-xs tracking-widest uppercase text-red mb-2">
               Born 11 Nov 2002 · Age 23
             </p>
@@ -89,7 +89,7 @@ export default function AboutPage() {
           </h2>
           <img
               src="/images/IMG_0981.jpg"
-              alt="Ulrik"
+              alt="The boat"
               className="w-full aspect-[4/3] object-cover mb-4 md:mb-6"
             />
           <p className="font-[family-name:var(--font-lora)] text-base md:text-lg leading-relaxed text-navy/70 text-justify">
