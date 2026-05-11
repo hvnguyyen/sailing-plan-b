@@ -6,7 +6,16 @@ import { siteSettingsQuery } from '@/lib/queries'
 export const revalidate = 60
 
 export default async function AboutPage() {
-  const settings = await client.fetch(siteSettingsQuery)
+  const s = await client.fetch(siteSettingsQuery)
+
+  const routeItems = s?.routeItems?.length > 0
+    ? s.routeItems
+    : [
+        { time: 'May / Jun 2025', place: 'Depart Norway', desc: 'Cast off the lines and work their way south along the Norwegian coast.' },
+        { time: 'Dec 2025', place: 'Gran Canaria', desc: 'The staging point for the Atlantic crossing. Final preparations, final farewells.' },
+        { time: 'Jan / Feb 2026', place: 'Atlantic crossing', desc: 'Trade winds, open ocean, 2 700 nautical miles of nothing but sea and sky.' },
+        { time: 'Early 2026', place: 'The Caribbean', desc: 'The other side. After that — wherever the wind goes.' },
+      ]
 
   return (
     <main className="bg-cream">
@@ -20,7 +29,7 @@ export default async function AboutPage() {
           Ulrik <span className="italic text-sand">&</span> Karen
         </h1>
         <p className="font-[family-name:var(--font-lora)] italic text-sand/60 text-base md:text-lg mt-4 md:mt-6">
-          Two people from Norway with one big idea.
+          {s?.aboutSubtitle || 'Two people from Norway with one big idea.'}
         </p>
       </section>
 
@@ -33,12 +42,10 @@ export default async function AboutPage() {
             On the name
           </p>
           <h2 className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl lg:text-4xl font-bold text-navy mb-4 md:mb-6">
-            It was always <span className="italic whitespace-nowrap">Plan A</span>
+            {s?.planBStoryTitle || <><span className="italic whitespace-nowrap">It was always Plan A</span></>}
           </h2>
           <p className="font-[family-name:var(--font-lora)] text-base md:text-lg leading-relaxed text-navy/70 text-justify">
-            The boat came with the name. But somewhere along the way, it started to make perfect sense,
-            because this was never really a backup plan. Leaving the dock, trading routine for open water,
-            learning as you go. For Ulrik and Karen, Plan B has always been the plan.
+            {s?.planBStoryText || 'The boat came with the name. But somewhere along the way, it started to make perfect sense, because this was never really a backup plan. Leaving the dock, trading routine for open water, learning as you go. For Ulrik and Karen, Plan B has always been the plan.'}
           </p>
         </div>
 
@@ -46,15 +53,15 @@ export default async function AboutPage() {
         <div className="grid md:grid-cols-2 gap-6 md:gap-8 mb-10 md:mb-16 lg:mb-20">
 
           {/* Ulrik */}
-          <div className="border border-navy/10 p-6 md:p-8 bg-white">
-            {settings?.ulrikImage ? (
+          <a
+            href={s?.ulrikInstagram || 'https://www.instagram.com/ulrik.kjaergaard_/'}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="border border-navy/10 p-6 md:p-8 bg-white block hover:border-navy/30 transition-colors duration-200"
+          >
+            {s?.ulrikImage ? (
               <div className="relative w-full aspect-[4/3] mb-4 md:mb-6 overflow-hidden">
-                <Image
-                  src={urlFor(settings.ulrikImage).width(800).url()}
-                  alt="Ulrik"
-                  fill
-                  className="object-cover"
-                />
+                <Image src={urlFor(s.ulrikImage).width(800).url()} alt="Ulrik" fill className="object-cover" />
               </div>
             ) : (
               <div className="w-full aspect-[4/3] bg-navy/10 mb-4 md:mb-6 flex items-center justify-center">
@@ -62,27 +69,29 @@ export default async function AboutPage() {
               </div>
             )}
             <p className="font-[family-name:var(--font-mono)] text-xs tracking-widest uppercase text-red mb-2">
-              Born 10 Sep 2001 · Age 24
+              {s?.ulrikBirthLabel || 'Born 10 Sep 2001 · Age 24'}
             </p>
             <h3 className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl font-bold text-navy mb-3 md:mb-4">
-              Ulrik Gjersøe Kjærgaard
+              {s?.ulrikName || 'Ulrik Gjersøe Kjærgaard'}
             </h3>
             <p className="font-[family-name:var(--font-lora)] text-sm md:text-base text-navy/70 leading-relaxed text-justify">
-              Grew up in an active family, and has never really stopped moving since.
-              Trained carpenter who can't sit still long enough to stick to one thing, so naturally, he bought a 40-year-old sailboat and decided sailing the world was next.
+              {s?.ulrikBio || 'Grew up in an active family, and has never really stopped moving since. Trained carpenter who can\'t sit still long enough to stick to one thing, so naturally, he bought a 40-year-old sailboat and decided sailing the world was next.'}
             </p>
-          </div>
+            <p className="font-[family-name:var(--font-mono)] text-xs tracking-widest uppercase text-navy/30 mt-4">
+              Instagram ↗
+            </p>
+          </a>
 
           {/* Karen */}
-          <div className="border border-navy/10 p-6 md:p-8 bg-white">
-            {settings?.karenImage ? (
+          <a
+            href={s?.karenInstagram || 'https://www.instagram.com/karenwolaussen/'}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="border border-navy/10 p-6 md:p-8 bg-white block hover:border-navy/30 transition-colors duration-200"
+          >
+            {s?.karenImage ? (
               <div className="relative w-full aspect-[4/3] mb-4 md:mb-6 overflow-hidden">
-                <Image
-                  src={urlFor(settings.karenImage).width(800).url()}
-                  alt="Karen"
-                  fill
-                  className="object-cover"
-                />
+                <Image src={urlFor(s.karenImage).width(800).url()} alt="Karen" fill className="object-cover" />
               </div>
             ) : (
               <div className="w-full aspect-[4/3] bg-navy/10 mb-4 md:mb-6 flex items-center justify-center">
@@ -90,17 +99,18 @@ export default async function AboutPage() {
               </div>
             )}
             <p className="font-[family-name:var(--font-mono)] text-xs tracking-widest uppercase text-red mb-2">
-              Born 11 Nov 2002 · Age 23
+              {s?.karenBirthLabel || 'Born 11 Nov 2002 · Age 23'}
             </p>
             <h3 className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl font-bold text-navy mb-3 md:mb-4">
-              Karen Wiik Olaussen
+              {s?.karenName || 'Karen Wiik Olaussen'}
             </h3>
             <p className="font-[family-name:var(--font-lora)] text-sm md:text-base text-navy/70 leading-relaxed text-justify">
-              The one behind the camera, most of the photos you'll find here are hers.
-              She had zero sailing experience when they cast off the lines, but that hasn't slowed her down.
-              Turns out she picks things up fast when the alternative is the open ocean.
+              {s?.karenBio || 'The one behind the camera, most of the photos you\'ll find here are hers. She had zero sailing experience when they cast off the lines, but that hasn\'t slowed her down. Turns out she picks things up fast when the alternative is the open ocean.'}
             </p>
-          </div>
+            <p className="font-[family-name:var(--font-mono)] text-xs tracking-widest uppercase text-navy/30 mt-4">
+              Instagram ↗
+            </p>
+          </a>
         </div>
 
         {/* The boat */}
@@ -108,17 +118,19 @@ export default async function AboutPage() {
           <p className="font-[family-name:var(--font-mono)] text-xs tracking-[0.2em] uppercase text-red mb-3 md:mb-4">
             The vessel
           </p>
-          <h2 className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl lg:text-4xl font-bold text-navy mb-4 md:mb-6">
-            A 1984 Najad 343
-          </h2>
-          {settings?.boatImage ? (
+          <a
+            href="https://najad.se/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group"
+          >
+            <h2 className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl lg:text-4xl font-bold text-navy mb-4 md:mb-6 group-hover:italic transition-all duration-200">
+              {s?.boatTitle || 'A 1984 Najad 343'} <span className="font-[family-name:var(--font-mono)] text-sm font-normal not-italic text-navy/30">↗</span>
+            </h2>
+          </a>
+          {s?.boatImage ? (
             <div className="relative w-full aspect-[4/3] mb-4 md:mb-6 overflow-hidden">
-              <Image
-                src={urlFor(settings.boatImage).width(1200).url()}
-                alt="Plan B"
-                fill
-                className="object-cover"
-              />
+              <Image src={urlFor(s.boatImage).width(1200).url()} alt="Plan B" fill className="object-cover" />
             </div>
           ) : (
             <div className="w-full aspect-[4/3] bg-navy/10 mb-4 md:mb-6 flex items-center justify-center">
@@ -126,9 +138,7 @@ export default async function AboutPage() {
             </div>
           )}
           <p className="font-[family-name:var(--font-lora)] text-base md:text-lg leading-relaxed text-navy/70 text-justify">
-            Built in Sweden in 1984, the Najad 343 is a classic offshore cruiser known for its
-            robust build and sea-kindly hull. Red hull, reliable bones, and just enough space for
-            two people and a big dream. She came with the name Plan B, and she's earning it.
+            {s?.boatDescription || 'Built in Sweden in 1984, the Najad 343 is a classic offshore cruiser known for its robust build and sea-kindly hull. Red hull, reliable bones, and just enough space for two people and a big dream. She came with the name Plan B, and she\'s earning it.'}
           </p>
         </div>
 
@@ -141,12 +151,7 @@ export default async function AboutPage() {
             Where we're headed
           </h2>
           <div className="space-y-4 md:space-y-6">
-            {[
-              { time: 'May / Jun 2025', place: 'Depart Norway', desc: 'Cast off the lines and work their way south along the Norwegian coast.' },
-              { time: 'Dec 2025', place: 'Gran Canaria', desc: 'The staging point for the Atlantic crossing. Final preparations, final farewells.' },
-              { time: 'Jan / Feb 2026', place: 'Atlantic crossing', desc: 'Trade winds, open ocean, 2 700 nautical miles of nothing but sea and sky.' },
-              { time: 'Early 2026', place: 'The Caribbean', desc: 'The other side. After that — wherever the wind goes.' },
-            ].map(({ time, place, desc }) => (
+            {routeItems.map(({ time, place, desc }: { time: string; place: string; desc: string }) => (
               <div key={place} className="flex flex-col sm:flex-row gap-2 sm:gap-6 border-t border-white/10 pt-4 md:pt-6">
                 <div className="sm:w-36 shrink-0">
                   <p className="font-[family-name:var(--font-mono)] text-xs tracking-wider uppercase text-red-light">

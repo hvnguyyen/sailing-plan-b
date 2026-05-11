@@ -80,12 +80,24 @@ export const albumBySlugQuery = groq`
 
 export const siteSettingsQuery = groq`
   *[_type == "siteSettings"][0] {
+    heroSubtitle,
+    aboutSubtitle,
+    planBStoryTitle,
+    planBStoryText,
     ulrikImage,
+    ulrikName,
+    ulrikBirthLabel,
+    ulrikBio,
+    ulrikInstagram,
     karenImage,
+    karenName,
+    karenBirthLabel,
+    karenBio,
+    karenInstagram,
     boatImage,
-    homeGallery[] {
-      asset,
-      alt,
-    },
+    boatTitle,
+    boatDescription,
+    routeItems[] { time, place, desc },
+    homeGallery[] { asset, alt },
   }
 `

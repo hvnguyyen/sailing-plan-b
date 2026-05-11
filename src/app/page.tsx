@@ -1,7 +1,13 @@
 import Link from 'next/link'
 import ScrollGallery from '@/components/ui/ScrollGallery'
+import { client } from '@/lib/sanity'
+import { siteSettingsQuery } from '@/lib/queries'
 
-export default function Home() {
+export const revalidate = 60
+
+export default async function Home() {
+  const settings = await client.fetch(siteSettingsQuery)
+
   return (
     <main>
       <section className="relative h-screen min-h-[600px] bg-navy flex flex-col items-center justify-center text-center overflow-hidden">
@@ -21,7 +27,7 @@ export default function Home() {
           </h1>
 
           <p className="font-[family-name:var(--font-lora)] italic text-sand/70 text-base md:text-xl mt-4 md:mt-6 max-w-xs md:max-w-md mx-auto">
-            Two people from Nøtterøy, Norway.
+            {settings?.heroSubtitle || 'Two people from Nøtterøy, Norway.'}
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-4 mt-8 md:mt-10">
