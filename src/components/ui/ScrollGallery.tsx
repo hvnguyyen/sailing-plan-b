@@ -3,14 +3,18 @@
 import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { client, urlFor } from '@/lib/sanity'
-import { galleryQuery } from '@/lib/queries'
+import { siteSettingsQuery } from '@/lib/queries'
 
 export default function ScrollGallery() {
   const itemRefs = useRef<(HTMLDivElement | null)[]>([])
   const [images, setImages] = useState<any[]>([])
 
   useEffect(() => {
-    client.fetch(galleryQuery).then(setImages)
+    client.fetch(siteSettingsQuery).then((settings) => {
+      if (settings?.homeGallery) {
+        setImages(settings.homeGallery)
+      }
+    })
   }, [])
 
   useEffect(() => {
@@ -51,7 +55,7 @@ export default function ScrollGallery() {
         <div className="space-y-12 md:space-y-24">
           {images.map((image, i) => (
             <div
-              key={image._id}
+              key={i}
               ref={(el: HTMLDivElement | null) => { itemRefs.current[i] = el }}
               className={`opacity-0 translate-y-16 transition-all duration-700 ease-out w-full md:w-3/4 ${
                 i % 2 === 0 ? 'mr-auto' : 'ml-auto'
@@ -59,18 +63,13 @@ export default function ScrollGallery() {
             >
               <div className="relative aspect-[4/3] w-full overflow-hidden">
                 <Image
-                  src={urlFor(image.image).width(1200).url()}
-                  alt={image.image?.alt || 'Plan B'}
+                  src={urlFor(image).width(1200).url()}
+                  alt={image.alt || 'Plan B'}
                   fill
                   className="object-cover"
                   sizes="(max-width: 768px) 100vw, 75vw"
                 />
               </div>
-              {image.caption && (
-                <p className="font-[family-name:var(--font-mono)] text-xs tracking-wider uppercase text-navy/30 mt-3">
-                  {image.caption}
-                </p>
-              )}
             </div>
           ))}
         </div>

@@ -75,3 +75,15 @@ export const albumBySlugQuery = groq`
     },
   }
 `
+
+export const siteSettingsQuery = groq`
+  *[_type == "siteSettings"][0] {
+    ulrikImage,
+    karenImage,
+    boatImage,
+    homeGallery[] {
+      asset,
+      alt,
+    },
+  }
+`

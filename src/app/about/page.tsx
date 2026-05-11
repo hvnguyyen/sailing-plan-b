@@ -1,6 +1,13 @@
 import Link from 'next/link'
+import Image from 'next/image'
+import { client, urlFor } from '@/lib/sanity'
+import { siteSettingsQuery } from '@/lib/queries'
 
-export default function AboutPage() {
+export const revalidate = 60
+
+export default async function AboutPage() {
+  const settings = await client.fetch(siteSettingsQuery)
+
   return (
     <main className="bg-cream">
 
@@ -22,13 +29,13 @@ export default function AboutPage() {
 
         {/* The Plan B story */}
         <div className="mb-10 md:mb-16 lg:mb-20">
-          <p className="font-[family-name:var(--font-lora)] text-base md:text-lg leading-relaxed text-navy/70 text-justify">
+          <p className="font-[family-name:var(--font-mono)] text-xs tracking-[0.2em] uppercase text-red mb-3 md:mb-4">
             On the name
           </p>
           <h2 className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl lg:text-4xl font-bold text-navy mb-4 md:mb-6">
             It was always <span className="italic whitespace-nowrap">Plan A</span>
           </h2>
-          <p className="font-[family-name:var(--font-lora)] text-base md:text-lg leading-relaxed text-navy/70">
+          <p className="font-[family-name:var(--font-lora)] text-base md:text-lg leading-relaxed text-navy/70 text-justify">
             The boat came with the name. But somewhere along the way, it started to make perfect sense,
             because this was never really a backup plan. Leaving the dock, trading routine for open water,
             learning as you go. For Ulrik and Karen, Plan B has always been the plan.
@@ -40,11 +47,20 @@ export default function AboutPage() {
 
           {/* Ulrik */}
           <div className="border border-navy/10 p-6 md:p-8 bg-white">
-            <img
-              src="/images/IMG_0976.jpg"
-              alt="Ulrik"
-              className="w-full aspect-[4/3] object-cover mb-4 md:mb-6"
-            />
+            {settings?.ulrikImage ? (
+              <div className="relative w-full aspect-[4/3] mb-4 md:mb-6 overflow-hidden">
+                <Image
+                  src={urlFor(settings.ulrikImage).width(800).url()}
+                  alt="Ulrik"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+            ) : (
+              <div className="w-full aspect-[4/3] bg-navy/10 mb-4 md:mb-6 flex items-center justify-center">
+                <span className="font-[family-name:var(--font-mono)] text-xs tracking-widest uppercase text-navy/30">Photo coming</span>
+              </div>
+            )}
             <p className="font-[family-name:var(--font-mono)] text-xs tracking-widest uppercase text-red mb-2">
               Born 10 Sep 2001 · Age 24
             </p>
@@ -52,18 +68,27 @@ export default function AboutPage() {
               Ulrik Gjersøe Kjærgaard
             </h3>
             <p className="font-[family-name:var(--font-lora)] text-sm md:text-base text-navy/70 leading-relaxed text-justify">
-              Grew up in an active family, and has never really stopped moving since. 
+              Grew up in an active family, and has never really stopped moving since.
               Trained carpenter who can't sit still long enough to stick to one thing, so naturally, he bought a 40-year-old sailboat and decided sailing the world was next.
             </p>
           </div>
 
           {/* Karen */}
           <div className="border border-navy/10 p-6 md:p-8 bg-white">
-            <img
-              src="/images/IMG_0991.jpg"
-              alt="karen"
-              className="w-full aspect-[4/3] object-cover mb-4 md:mb-6"
-            />
+            {settings?.karenImage ? (
+              <div className="relative w-full aspect-[4/3] mb-4 md:mb-6 overflow-hidden">
+                <Image
+                  src={urlFor(settings.karenImage).width(800).url()}
+                  alt="Karen"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+            ) : (
+              <div className="w-full aspect-[4/3] bg-navy/10 mb-4 md:mb-6 flex items-center justify-center">
+                <span className="font-[family-name:var(--font-mono)] text-xs tracking-widest uppercase text-navy/30">Photo coming</span>
+              </div>
+            )}
             <p className="font-[family-name:var(--font-mono)] text-xs tracking-widest uppercase text-red mb-2">
               Born 11 Nov 2002 · Age 23
             </p>
@@ -71,9 +96,9 @@ export default function AboutPage() {
               Karen Wiik Olaussen
             </h3>
             <p className="font-[family-name:var(--font-lora)] text-sm md:text-base text-navy/70 leading-relaxed text-justify">
-              The one behind the camera, most of the photos you'll find here are hers. 
-              She had zero sailing experience when they cast off the lines, but that hasn't slowed her down. 
-              Turns out she picks things up fast when the alternative is the open ocean.           
+              The one behind the camera, most of the photos you'll find here are hers.
+              She had zero sailing experience when they cast off the lines, but that hasn't slowed her down.
+              Turns out she picks things up fast when the alternative is the open ocean.
             </p>
           </div>
         </div>
@@ -86,11 +111,20 @@ export default function AboutPage() {
           <h2 className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl lg:text-4xl font-bold text-navy mb-4 md:mb-6">
             A 1984 Najad 343
           </h2>
-          <img
-              src="/images/IMG_0981.jpg"
-              alt="The boat"
-              className="w-full aspect-[4/3] object-cover mb-4 md:mb-6"
-            />
+          {settings?.boatImage ? (
+            <div className="relative w-full aspect-[4/3] mb-4 md:mb-6 overflow-hidden">
+              <Image
+                src={urlFor(settings.boatImage).width(1200).url()}
+                alt="Plan B"
+                fill
+                className="object-cover"
+              />
+            </div>
+          ) : (
+            <div className="w-full aspect-[4/3] bg-navy/10 mb-4 md:mb-6 flex items-center justify-center">
+              <span className="font-[family-name:var(--font-mono)] text-xs tracking-widest uppercase text-navy/30">Photo coming</span>
+            </div>
+          )}
           <p className="font-[family-name:var(--font-lora)] text-base md:text-lg leading-relaxed text-navy/70 text-justify">
             Built in Sweden in 1984, the Najad 343 is a classic offshore cruiser known for its
             robust build and sea-kindly hull. Red hull, reliable bones, and just enough space for
