@@ -1,6 +1,6 @@
 # Sailing Plan B
 
-Website for Ulrik & Karen's sailing journey on a 1984 Najad 343 from Norway to the Caribbean.
+Website for Ulrik & Karen's sailing journey on a 1984 Najad 343 from Norway to the Somewhere.
 
 Live at [sailing-planb.com](https://www.sailing-planb.com)
 
