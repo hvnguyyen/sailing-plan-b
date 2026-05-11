@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import Lightbox from 'yet-another-react-lightbox'
 import Download from 'yet-another-react-lightbox/plugins/download'
@@ -14,6 +14,27 @@ interface Props {
 
 export default function ImageLightbox({ images, albumTitle }: Props) {
   const [index, setIndex] = useState(-1)
+  const itemRefs = useRef<(HTMLDivElement | null)[]>([])
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('opacity-100', 'translate-y-0')
+            entry.target.classList.remove('opacity-0', 'translate-y-8')
+          }
+        })
+      },
+      { threshold: 0.1 }
+    )
+
+    itemRefs.current.forEach((el) => {
+      if (el) observer.observe(el)
+    })
+
+    return () => observer.disconnect()
+  }, [images])
 
   const slides = images.map((image) => ({
     src: urlFor(image).width(1920).url(),
@@ -27,7 +48,8 @@ export default function ImageLightbox({ images, albumTitle }: Props) {
         {images.map((image, i) => (
           <div
             key={i}
-            className="break-inside-avoid cursor-pointer group"
+            ref={(el: HTMLDivElement | null) => { itemRefs.current[i] = el }}
+            className="break-inside-avoid cursor-pointer group opacity-0 translate-y-8 transition-all duration-500 ease-out"
             onClick={() => setIndex(i)}
           >
             <div className="relative w-full overflow-hidden">
@@ -37,7 +59,7 @@ export default function ImageLightbox({ images, albumTitle }: Props) {
                 width={800}
                 height={600}
                 className="w-full object-cover group-hover:opacity-90 transition-opacity duration-200"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                sizes="(max-width: 768px) 50vw, (max-width: 1200px) 50vw, 33vw"
               />
             </div>
             {(image.location || image.caption) && (
