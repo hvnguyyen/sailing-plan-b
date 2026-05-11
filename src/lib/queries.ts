@@ -59,6 +59,7 @@ export const albumBySlugQuery = groq`
     date,
     coverImage,
     description,
+    "parentAlbum": parentAlbum->{ title },
     images[] {
       asset,
       alt,

@@ -29,9 +29,9 @@ export default async function AlbumPage({
 
       {/* Header */}
       <section className="bg-navy text-white pt-28 md:pt-36 lg:pt-40 pb-16 md:pb-20 px-8 text-center">
-        {album.location && (
+        {album.parentAlbum && (
           <p className="font-[family-name:var(--font-mono)] text-xs tracking-[0.25em] uppercase text-red-light mb-4">
-            {album.location}
+            {album.parentAlbum.title}
           </p>
         )}
         <h1 className="font-[family-name:var(--font-playfair)] text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.05] max-w-3xl mx-auto">

@@ -5,6 +5,8 @@ import { useClient, insert, PatchEvent } from 'sanity'
 import { Button, Stack, Flex, Text, Spinner } from '@sanity/ui'
 import { UploadIcon } from '@sanity/icons'
 
+const BATCH_SIZE = 5
+
 export function BulkImageUpload(props: any) {
   const client = useClient({ apiVersion: '2024-05-01' })
   const inputRef = useRef<HTMLInputElement>(null)
@@ -19,18 +21,31 @@ export function BulkImageUpload(props: any) {
       setUploading(true)
       setProgress({ done: 0, total: files.length })
 
-      const newItems: any[] = []
-      for (const file of files) {
-        const asset = await client.assets.upload('image', file, { filename: file.name })
-        newItems.push({
-          _type: 'image',
-          _key: Math.random().toString(36).slice(2),
-          asset: { _type: 'reference', _ref: asset._id },
-        })
-        setProgress((p) => ({ ...p, done: p.done + 1 }))
+      for (let i = 0; i < files.length; i += BATCH_SIZE) {
+        const batch = files.slice(i, i + BATCH_SIZE)
+
+        const results = await Promise.allSettled(
+          batch.map(async (file) => {
+            const asset = await client.assets.upload('image', file, { filename: file.name })
+            return {
+              _type: 'image',
+              _key: Math.random().toString(36).slice(2),
+              asset: { _type: 'reference', _ref: asset._id },
+            }
+          }),
+        )
+
+        const successful = results
+          .filter((r) => r.status === 'fulfilled')
+          .map((r) => (r as PromiseFulfilledResult<any>).value)
+
+        if (successful.length > 0) {
+          props.onChange(PatchEvent.from(insert(successful, 'after', [-1])))
+        }
+
+        setProgress((p) => ({ ...p, done: Math.min(p.done + batch.length, files.length) }))
       }
 
-      props.onChange(PatchEvent.from(insert(newItems, 'after', [-1])))
       setUploading(false)
       e.target.value = ''
     },
