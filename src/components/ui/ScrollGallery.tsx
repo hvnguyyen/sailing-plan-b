@@ -74,6 +74,15 @@ export default function ScrollGallery() {
           ))}
         </div>
 
+        <div className="text-center mt-16 md:mt-28">
+          <a
+            href="/gallery"
+            className="font-[family-name:var(--font-mono)] text-xs tracking-widest uppercase bg-red text-white px-8 py-3 hover:bg-red-light transition-colors duration-200 inline-block"
+          >
+            View full gallery
+          </a>
+        </div>
+
       </div>
     </section>
   )

@@ -43,7 +43,7 @@ export default function Home() {
         {/* Scroll indicator */}
         <div className="absolute bottom-8 md:bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
           <span className="font-[family-name:var(--font-mono)] text-[0.6rem] tracking-[0.2em] uppercase text-white/30">
-            scroll for photos
+            Scroll for highlights
           </span>
           <div className="w-px h-8 md:h-10 bg-gradient-to-b from-white/30 to-transparent" />
         </div>
