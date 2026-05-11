@@ -46,7 +46,7 @@ export default async function PostPage({
       : ''}
   </span>
     {post.location && <span className="hidden md:inline text-white/30 mx-2">·</span>}
-    {post.location && <span className="text-white/50 whitespace-nowrap">{post.location}</span>}
+    {post.location && <span className="text-white/50 whitespace-nowrap block md:inline">{post.location}</span>}
 </p>
         <h1 className="font-[family-name:var(--font-playfair)] text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.05] max-w-3xl mx-auto">
           {post.title}
