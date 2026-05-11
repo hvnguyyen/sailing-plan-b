@@ -52,12 +52,28 @@ export default function ScrollGallery() {
           </h2>
         </div>
 
-        <div className="space-y-12 md:space-y-24">
+        {/* Mobile: 2-column grid */}
+        <div className="grid grid-cols-2 gap-1 md:hidden">
+          {images.map((image, i) => (
+            <div key={i} className="relative aspect-square overflow-hidden">
+              <Image
+                src={urlFor(image).width(600).url()}
+                alt={image.alt || 'Plan B'}
+                fill
+                className="object-cover"
+                sizes="50vw"
+              />
+            </div>
+          ))}
+        </div>
+
+        {/* Desktop: stagger layout */}
+        <div className="hidden md:block space-y-24">
           {images.map((image, i) => (
             <div
               key={i}
               ref={(el: HTMLDivElement | null) => { itemRefs.current[i] = el }}
-              className={`opacity-0 translate-y-16 transition-all duration-700 ease-out w-full md:w-3/4 ${
+              className={`opacity-0 translate-y-16 transition-all duration-700 ease-out w-3/4 ${
                 i % 2 === 0 ? 'mr-auto' : 'ml-auto'
               }`}
             >
@@ -67,7 +83,7 @@ export default function ScrollGallery() {
                   alt={image.alt || 'Plan B'}
                   fill
                   className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 75vw"
+                  sizes="75vw"
                 />
               </div>
             </div>

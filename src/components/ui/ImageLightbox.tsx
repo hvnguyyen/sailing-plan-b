@@ -23,7 +23,7 @@ export default function ImageLightbox({ images, albumTitle }: Props) {
 
   return (
     <>
-      <div className="columns-1 md:columns-2 lg:columns-3 gap-4 md:gap-6 space-y-4 md:space-y-6">
+      <div className="columns-2 md:columns-2 lg:columns-3 gap-2 md:gap-6 space-y-2 md:space-y-6">
         {images.map((image, i) => (
           <div
             key={i}

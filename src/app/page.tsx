@@ -10,7 +10,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-b from-navy via-navy-mid to-navy" />
 
         {/* Content */}
-        <div className="relative z-10 px-6 md:px-8">
+        <div className="relative z-10 px-6 md:px-8" spellCheck={false}>
           <p className="font-[family-name:var(--font-mono)] text-xs tracking-[0.25em] uppercase text-red-light mb-4 md:mb-6">
             Najad 343
           </p>
