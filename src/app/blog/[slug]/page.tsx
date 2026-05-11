@@ -26,28 +26,23 @@ export default async function PostPage({
 
       {/* Header */}
       <section className="bg-navy text-white pt-28 md:pt-36 lg:pt-40 pb-16 md:pb-20 px-8 text-center">
-        <div className="font-[family-name:var(--font-mono)] text-xs tracking-[0.25em] uppercase mb-4">
-          <div className="flex flex-wrap justify-center items-center gap-x-2 text-red-light">
-            <span className="whitespace-nowrap">
-              {post.publishedAt
-                ? new Date(post.publishedAt).toLocaleDateString('en-GB', {
-                    day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Europe/Oslo',
-                  })
-                : ''}
-              {', '}
-              {post.publishedAt
-                ? new Date(post.publishedAt).toLocaleTimeString('en-GB', {
-                    hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Oslo',
-                  })
-                : ''}
-            </span>
-            {post.location && <span className="hidden md:inline text-white/30 mx-1">·</span>}
-            {post.location && <span className="hidden md:inline text-white/50">{post.location}</span>}
-          </div>
-          {post.location && (
-            <p className="md:hidden text-white/50 mt-1">{post.location}</p>
-          )}
-        </div>
+        <p className="font-[family-name:var(--font-mono)] text-xs tracking-[0.25em] uppercase mb-4 flex flex-wrap justify-center items-center gap-x-2 text-red-light">
+          <span className="whitespace-nowrap">
+            {post.publishedAt
+              ? new Date(post.publishedAt).toLocaleDateString('en-GB', {
+                  day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Europe/Oslo',
+                })
+              : ''}
+            {', '}
+            {post.publishedAt
+              ? new Date(post.publishedAt).toLocaleTimeString('en-GB', {
+                  hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Oslo',
+                })
+              : ''}
+          </span>
+          {post.location && <span className="text-white/30 mx-1">·</span>}
+          {post.location && <span className="text-white/50 whitespace-nowrap">{post.location}</span>}
+        </p>
         <h1 className="font-[family-name:var(--font-playfair)] text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.05] max-w-3xl mx-auto">
           {post.title}
         </h1>

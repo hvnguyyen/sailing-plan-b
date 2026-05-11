@@ -30,6 +30,10 @@ export default async function GalleryPage() {
             </p>
           </div>
         ) : (
+          <>
+          <p className="font-[family-name:var(--font-mono)] text-xs tracking-[0.25em] uppercase text-red mb-8">
+            Albums
+          </p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {albums.map((album: any) => (
               <Link
@@ -73,6 +77,7 @@ export default async function GalleryPage() {
               </Link>
             ))}
           </div>
+          </>
         )}
       </section>
 

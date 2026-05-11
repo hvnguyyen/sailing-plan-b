@@ -21,8 +21,8 @@ export default function ImageLightbox({ images, albumTitle }: Props) {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            entry.target.classList.add('opacity-100', 'translate-y-0')
-            entry.target.classList.remove('opacity-0', 'translate-y-8')
+            entry.target.classList.add('opacity-100')
+            entry.target.classList.remove('opacity-0')
           }
         })
       },
@@ -49,7 +49,7 @@ export default function ImageLightbox({ images, albumTitle }: Props) {
           <div
             key={i}
             ref={(el: HTMLDivElement | null) => { itemRefs.current[i] = el }}
-            className="break-inside-avoid cursor-pointer group opacity-0 translate-y-8 transition-all duration-500 ease-out"
+            className="break-inside-avoid cursor-pointer group opacity-0 transition-opacity duration-500 ease-out"
             onClick={() => setIndex(i)}
           >
             <div className="relative w-full overflow-hidden">
