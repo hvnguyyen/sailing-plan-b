@@ -17,9 +17,14 @@ export default async function Home() {
 
         {/* Content */}
         <div className="relative z-10 px-6 md:px-8" spellCheck={false}>
-          <p className="font-[family-name:var(--font-mono)] text-xs tracking-[0.25em] uppercase text-red-light mb-4 md:mb-6">
+          <p className="font-[family-name:var(--font-mono)] text-xs tracking-[0.25em] uppercase text-red-light mb-1">
             Najad 343
           </p>
+          {settings?.currentLocation && (
+            <p className="font-[family-name:var(--font-mono)] text-xs tracking-[0.2em] uppercase text-white/40 mb-4 md:mb-6">
+              Currently in <span className="text-white/60">{settings.currentLocation}</span>
+            </p>
+          )}
 
           <h1 className="font-[family-name:var(--font-playfair)] text-[clamp(3rem,12vw,9rem)] font-bold text-white leading-[0.95] tracking-tight">
             Sailing<br />

@@ -1,10 +1,6 @@
 import Link from 'next/link'
-import { client } from '@/lib/sanity'
-import { siteSettingsQuery } from '@/lib/queries'
 
-export default async function Footer() {
-  const settings = await client.fetch(siteSettingsQuery, {}, { next: { revalidate: 60 } })
-
+export default function Footer() {
   return (
     <footer className="bg-navy text-white/40 py-12 px-8">
 
@@ -14,13 +10,6 @@ export default async function Footer() {
         <p className="font-[family-name:var(--font-playfair)] text-lg text-white">
           Sailing <span className="italic text-sand">Plan B</span>
         </p>
-
-        {settings?.currentLocation && (
-          <p className="font-[family-name:var(--font-mono)] text-xs tracking-[0.2em] uppercase -mt-2">
-            <span className="text-white/25">Currently in</span>{' '}
-            <span className="text-red-light">{settings.currentLocation}</span>
-          </p>
-        )}
 
         <div className="flex flex-wrap justify-center gap-6 md:gap-8">
           <Link href="/" className="font-[family-name:var(--font-mono)] text-xs tracking-widest uppercase hover:text-white transition-colors duration-200">
