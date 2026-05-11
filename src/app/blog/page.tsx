@@ -44,6 +44,7 @@ export default async function BlogPage() {
                     year: 'numeric',
                     hour: '2-digit',
                     minute: '2-digit',
+                    timeZone: 'Europe/Oslo',
                   })}
                   </p>
                   {post.location && (
