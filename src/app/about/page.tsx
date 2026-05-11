@@ -155,7 +155,7 @@ export default async function AboutPage() {
           </h2>
           <div className="space-y-4 md:space-y-6">
             {routeItems.map(({ time, place, desc }: { time: string; place: string; desc: string }) => (
-              <div key={place} className="flex flex-col sm:flex-row gap-2 sm:gap-6 border-t border-white/10 pt-4 md:pt-6">
+              <div key={place} className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-6 border-t border-white/10 pt-4 md:pt-6">
                 <div className="sm:w-36 shrink-0">
                   <p className="font-[family-name:var(--font-mono)] text-xs tracking-wider uppercase text-red-light">
                     {time}
