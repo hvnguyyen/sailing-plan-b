@@ -3,7 +3,7 @@ import { client } from '@/lib/sanity'
 import { siteSettingsQuery } from '@/lib/queries'
 
 export default async function Footer() {
-  const settings = await client.fetch(siteSettingsQuery)
+  const settings = await client.fetch(siteSettingsQuery, {}, { next: { revalidate: 60 } })
 
   return (
     <footer className="bg-navy text-white/40 py-12 px-8">
