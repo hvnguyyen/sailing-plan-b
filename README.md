@@ -1,36 +1,61 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Sailing Plan B
 
-## Getting Started
+Website for Ulrik & Karen's sailing journey on a 1984 Najad 343 from Norway to the Caribbean.
 
-First, run the development server:
+Live at [sailing-planb.com](https://www.sailing-planb.com)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Tech stack
+
+- **Next.js 16** — App Router, server components, ISR
+- **Sanity v5** — CMS for blog posts, gallery albums, and site settings
+- **Tailwind CSS** — Styling
+- **Vercel** — Hosting and deployment
+
+## Project structure
+
+```
+src/
+  app/                  # Next.js App Router pages
+    blog/               # Blog list and post pages
+    gallery/            # Gallery overview and album pages
+    about/              # About page
+    api/revalidate/     # Webhook endpoint for on-demand revalidation
+    sitemap.ts          # Auto-generated sitemap
+  components/
+    layout/             # Navbar and Footer
+    ui/                 # ImageLightbox, ScrollGallery
+  lib/
+    sanity.ts           # Sanity client
+    queries.ts          # GROQ queries
+  sanity/
+    schemaTypes/        # Content types: post, album, siteSettings, etc.
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Getting started
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm install
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Open [localhost:3000](http://localhost:3000) for the site and [localhost:3000/studio](http://localhost:3000/studio) for Sanity Studio.
 
-## Learn More
+## Environment variables
 
-To learn more about Next.js, take a look at the following resources:
+```
+NEXT_PUBLIC_SANITY_PROJECT_ID=
+NEXT_PUBLIC_SANITY_DATASET=
+SANITY_REVALIDATE_SECRET=
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Content management
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+All content is managed through Sanity Studio at `/studio`:
 
-## Deploy on Vercel
+- **Blog** — Write posts with title, date, location, body, and main image
+- **Gallery** — Organize photos into albums and sub-albums
+- **Site Settings** — Hero subtitle, current location, crew bios, boat info, route items, and home gallery images
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Deployment
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Deployed on Vercel. Pushes to `main` trigger automatic deploys. Content updates in Sanity trigger instant revalidation via webhook at `/api/revalidate`.
