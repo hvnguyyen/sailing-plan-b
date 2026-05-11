@@ -1,5 +1,6 @@
 import { defineField, defineType } from 'sanity'
 import { ImagesIcon } from '@sanity/icons'
+import { BulkImageUpload } from '../components/BulkImageUpload'
 
 export const albumType = defineType({
   name: 'album',
@@ -56,6 +57,7 @@ export const albumType = defineType({
       name: 'images',
       title: 'Images',
       type: 'array',
+      components: { input: BulkImageUpload },
       of: [
         {
           type: 'image',
