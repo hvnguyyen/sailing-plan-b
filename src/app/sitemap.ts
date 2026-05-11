@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next'
 import { client } from '@/lib/sanity'
 import { groq } from 'next-sanity'
 
-const baseUrl = 'https://sailing-plan-b.vercel.app'
+const baseUrl = 'https://www.sailing-planb.com'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const posts = await client.fetch(groq`*[_type == "post"] { slug, publishedAt }`)
