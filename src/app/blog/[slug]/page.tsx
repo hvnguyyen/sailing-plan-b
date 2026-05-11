@@ -26,21 +26,26 @@ export default async function PostPage({
 
       {/* Header */}
       <section className="bg-navy text-white pt-28 md:pt-36 lg:pt-40 pb-16 md:pb-20 px-8 text-center">
-        <p className="font-[family-name:var(--font-mono)] text-xs tracking-[0.25em] uppercase mb-4 text-red-light">
-          {post.publishedAt
-            ? new Date(post.publishedAt).toLocaleDateString('en-GB', {
-                day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Europe/Oslo',
-              })
-            : ''}
-          {', '}
-          {post.publishedAt
-            ? new Date(post.publishedAt).toLocaleTimeString('en-GB', {
-                hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Oslo',
-              })
-            : ''}
-          {post.location && <span className="text-white/30 mx-2">·</span>}
-          {post.location && <span className="text-white/50">{post.location}</span>}
-        </p>
+        <div className="font-[family-name:var(--font-mono)] text-xs tracking-[0.25em] uppercase mb-4">
+          <p className="text-red-light">
+            {post.publishedAt
+              ? new Date(post.publishedAt).toLocaleDateString('en-GB', {
+                  day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Europe/Oslo',
+                })
+              : ''}
+            {', '}
+            {post.publishedAt
+              ? new Date(post.publishedAt).toLocaleTimeString('en-GB', {
+                  hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Oslo',
+                })
+              : ''}
+            {post.location && <span className="hidden md:inline text-white/30 mx-2">·</span>}
+            {post.location && <span className="hidden md:inline text-white/50">{post.location}</span>}
+          </p>
+          {post.location && (
+            <p className="md:hidden text-white/50 mt-1">{post.location}</p>
+          )}
+        </div>
         <h1 className="font-[family-name:var(--font-playfair)] text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.05] max-w-3xl mx-auto">
           {post.title}
         </h1>
