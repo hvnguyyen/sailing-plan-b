@@ -17,14 +17,9 @@ export default async function Home() {
 
         {/* Content */}
         <div className="relative z-10 px-6 md:px-8" spellCheck={false}>
-          <p className="font-[family-name:var(--font-mono)] text-xs tracking-[0.25em] uppercase text-red-light mb-1">
+          <p className="font-[family-name:var(--font-mono)] text-xs tracking-[0.25em] uppercase text-red-light mb-4 md:mb-6">
             Najad 343
           </p>
-          {settings?.currentLocation && (
-            <p className="font-[family-name:var(--font-mono)] text-xs tracking-[0.2em] uppercase text-white/40 mb-4 md:mb-6">
-              Currently in <span className="text-white/60">{settings.currentLocation}</span>
-            </p>
-          )}
 
           <h1 className="font-[family-name:var(--font-playfair)] text-[clamp(3rem,12vw,9rem)] font-bold text-white leading-[0.95] tracking-tight">
             Sailing<br />
@@ -32,7 +27,9 @@ export default async function Home() {
           </h1>
 
           <p className="font-[family-name:var(--font-lora)] italic text-sand/70 text-base md:text-xl mt-4 md:mt-6 max-w-xs md:max-w-md mx-auto">
-            {settings?.heroSubtitle || 'Two people from Nøtterøy, Norway.'}
+            {settings?.currentLocation
+              ? `Currently in ${settings.currentLocation}`
+              : (settings?.heroSubtitle || 'Two people from Nøtterøy, Norway.')}
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-4 mt-8 md:mt-10">
