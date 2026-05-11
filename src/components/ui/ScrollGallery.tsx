@@ -2,12 +2,16 @@
 
 import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
+import Lightbox from 'yet-another-react-lightbox'
+import Download from 'yet-another-react-lightbox/plugins/download'
+import 'yet-another-react-lightbox/styles.css'
 import { client, urlFor } from '@/lib/sanity'
 import { siteSettingsQuery } from '@/lib/queries'
 
 export default function ScrollGallery() {
   const itemRefs = useRef<(HTMLDivElement | null)[]>([])
   const [images, setImages] = useState<any[]>([])
+  const [lightboxIndex, setLightboxIndex] = useState(-1)
 
   useEffect(() => {
     client.fetch(siteSettingsQuery).then((settings) => {
@@ -39,6 +43,12 @@ export default function ScrollGallery() {
 
   if (images.length === 0) return null
 
+  const slides = images.map((image) => ({
+    src: urlFor(image).width(1920).url(),
+    download: urlFor(image).width(1920).url(),
+    alt: image.alt || 'Plan B',
+  }))
+
   return (
     <section className="bg-cream py-16 md:py-32">
       <div className="max-w-6xl mx-auto px-4 md:px-0">
@@ -52,38 +62,25 @@ export default function ScrollGallery() {
           </h2>
         </div>
 
-        {/* Mobile: 2-column grid */}
-        <div className="grid grid-cols-2 gap-1 md:hidden">
-          {images.map((image, i) => (
-            <div key={i} className="relative aspect-square overflow-hidden">
-              <Image
-                src={urlFor(image).width(600).url()}
-                alt={image.alt || 'Plan B'}
-                fill
-                className="object-cover"
-                sizes="50vw"
-              />
-            </div>
-          ))}
-        </div>
-
-        {/* Desktop: stagger layout */}
-        <div className="hidden md:block space-y-24">
+        <div className="space-y-10 md:space-y-24">
           {images.map((image, i) => (
             <div
               key={i}
               ref={(el: HTMLDivElement | null) => { itemRefs.current[i] = el }}
-              className={`opacity-0 translate-y-16 transition-all duration-700 ease-out w-3/4 ${
+              className={`opacity-0 translate-y-16 transition-all duration-700 ease-out w-4/5 md:w-3/4 ${
                 i % 2 === 0 ? 'mr-auto' : 'ml-auto'
               }`}
             >
-              <div className="relative aspect-[4/3] w-full overflow-hidden">
+              <div
+                className="relative aspect-[4/3] w-full overflow-hidden cursor-pointer group"
+                onClick={() => setLightboxIndex(i)}
+              >
                 <Image
                   src={urlFor(image).width(1200).url()}
                   alt={image.alt || 'Plan B'}
                   fill
-                  className="object-cover"
-                  sizes="75vw"
+                  className="object-cover group-hover:opacity-90 transition-opacity duration-200"
+                  sizes="(max-width: 768px) 80vw, 75vw"
                 />
               </div>
             </div>
@@ -100,6 +97,17 @@ export default function ScrollGallery() {
         </div>
 
       </div>
+
+      <Lightbox
+        open={lightboxIndex >= 0}
+        index={lightboxIndex}
+        close={() => setLightboxIndex(-1)}
+        slides={slides}
+        plugins={[Download]}
+        styles={{
+          container: { backgroundColor: 'rgba(11, 31, 46, 0.97)' },
+        }}
+      />
     </section>
   )
 }
