@@ -9,6 +9,7 @@ export const postsQuery = groq`
     excerpt,
     location,
     mainImage,
+    "mainImageLqip": mainImage.asset->metadata.lqip,
     "categories": categories[]->title,
   }
 `
@@ -22,6 +23,7 @@ export const postBySlugQuery = groq`
     excerpt,
     location,
     mainImage,
+    "mainImageLqip": mainImage.asset->metadata.lqip,
     body,
     "categories": categories[]->title,
     "author": author->{ name, image },
@@ -44,6 +46,7 @@ export const albumsQuery = groq`
     slug,
     location,
     coverImage,
+    "coverLqip": coverImage.asset->metadata.lqip,
     description,
     "imageCount": count(images),
     "subAlbumCount": count(*[_type == "album" && references(^._id)]),
@@ -58,13 +61,15 @@ export const albumBySlugQuery = groq`
     location,
     date,
     coverImage,
+    "coverLqip": coverImage.asset->metadata.lqip,
     description,
-    "parentAlbum": parentAlbum->{ title },
+    "parentAlbum": parentAlbum->{ title, "slug": slug.current },
     images[] {
       asset,
       alt,
       caption,
       location,
+      "lqip": asset->metadata.lqip,
     },
     "subAlbums": *[_type == "album" && references(^._id)] | order(date asc) {
       _id,
@@ -73,6 +78,7 @@ export const albumBySlugQuery = groq`
       location,
       date,
       coverImage,
+      "coverLqip": coverImage.asset->metadata.lqip,
       "imageCount": count(images),
     },
   }
@@ -81,23 +87,27 @@ export const albumBySlugQuery = groq`
 export const siteSettingsQuery = groq`
   *[_type == "siteSettings"][0] {
     heroSubtitle,
+    currentLocation,
     aboutSubtitle,
     planBStoryTitle,
     planBStoryText,
     ulrikImage,
+    "ulrikImageLqip": ulrikImage.asset->metadata.lqip,
     ulrikName,
     ulrikBirthLabel,
     ulrikBio,
     ulrikInstagram,
     karenImage,
+    "karenImageLqip": karenImage.asset->metadata.lqip,
     karenName,
     karenBirthLabel,
     karenBio,
     karenInstagram,
     boatImage,
+    "boatImageLqip": boatImage.asset->metadata.lqip,
     boatTitle,
     boatDescription,
     routeItems[] { time, place, desc },
-    homeGallery[] { asset, alt },
+    homeGallery[] { asset, alt, "lqip": asset->metadata.lqip },
   }
 `

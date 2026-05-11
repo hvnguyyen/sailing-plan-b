@@ -21,8 +21,23 @@ const dmMono = DM_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'Sailing Plan B',
+  title: {
+    default: 'Sailing Plan B',
+    template: '%s | Sailing Plan B',
+  },
   description: 'Ulrik & Karen sailing the world on a Najad 343',
+  openGraph: {
+    title: 'Sailing Plan B',
+    description: 'Ulrik & Karen sailing the world on a Najad 343',
+    type: 'website',
+    locale: 'en_GB',
+    siteName: 'Sailing Plan B',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Sailing Plan B',
+    description: 'Ulrik & Karen sailing the world on a Najad 343',
+  },
 }
 
 export default function RootLayout({

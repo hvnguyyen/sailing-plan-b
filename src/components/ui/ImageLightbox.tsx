@@ -58,6 +58,8 @@ export default function ImageLightbox({ images, albumTitle }: Props) {
                 alt={image.alt || albumTitle}
                 width={800}
                 height={600}
+                placeholder={image.lqip ? 'blur' : 'empty'}
+                blurDataURL={image.lqip ?? undefined}
                 className="w-full object-cover group-hover:opacity-90 transition-opacity duration-200"
                 sizes="(max-width: 768px) 50vw, (max-width: 1200px) 50vw, 33vw"
               />

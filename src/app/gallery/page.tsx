@@ -48,6 +48,8 @@ export default async function GalleryPage() {
                       src={urlFor(album.coverImage).width(800).url()}
                       alt={album.title}
                       fill
+                      placeholder={album.coverLqip ? 'blur' : 'empty'}
+                      blurDataURL={album.coverLqip ?? undefined}
                       className="object-cover group-hover:scale-105 transition-transform duration-500"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />

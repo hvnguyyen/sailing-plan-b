@@ -24,6 +24,13 @@ export const siteSettingsType = defineType({
       description: 'e.g. "Two people from Nøtterøy, Norway."',
       group: 'homepage',
     }),
+    defineField({
+      name: 'currentLocation',
+      title: 'Homepage — Current location',
+      type: 'string',
+      description: 'e.g. "Bergen, Norway" — shown in the footer',
+      group: 'homepage',
+    }),
 
     // About hero
     defineField({

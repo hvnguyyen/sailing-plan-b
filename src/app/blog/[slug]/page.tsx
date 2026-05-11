@@ -11,6 +11,35 @@ export async function generateStaticParams() {
   return posts.map((post: any) => ({ slug: post.slug.current }))
 }
 
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>
+}) {
+  const { slug } = await params
+  const post = await client.fetch(postBySlugQuery, { slug })
+  if (!post) return {}
+  const description = post.excerpt || 'Sailing log from Ulrik & Karen on Plan B'
+  const ogImage = post.mainImage ? urlFor(post.mainImage).width(1200).url() : undefined
+  return {
+    title: post.title,
+    description,
+    openGraph: {
+      title: post.title,
+      description,
+      type: 'article',
+      publishedTime: post.publishedAt,
+      images: ogImage ? [ogImage] : [],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description,
+      images: ogImage ? [ogImage] : [],
+    },
+  }
+}
+
 export default async function PostPage({
   params,
 }: {
@@ -64,6 +93,8 @@ export default async function PostPage({
               src={urlFor(post.mainImage).width(1200).url()}
               alt={post.title}
               fill
+              placeholder={post.mainImageLqip ? 'blur' : 'empty'}
+              blurDataURL={post.mainImageLqip ?? undefined}
               className="object-cover"
             />
           </div>

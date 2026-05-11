@@ -64,7 +64,7 @@ export default async function AboutPage() {
           <div className="border border-navy/10 p-6 md:p-8 bg-white">
             {s?.ulrikImage ? (
               <div className="relative w-full aspect-[4/3] mb-4 md:mb-6 overflow-hidden">
-                <Image src={urlFor(s.ulrikImage).width(800).url()} alt="Ulrik" fill className="object-cover" />
+                <Image src={urlFor(s.ulrikImage).width(800).url()} alt="Ulrik" fill placeholder={s.ulrikImageLqip ? 'blur' : 'empty'} blurDataURL={s.ulrikImageLqip ?? undefined} className="object-cover" />
               </div>
             ) : (
               <div className="w-full aspect-[4/3] bg-navy/10 mb-4 md:mb-6 flex items-center justify-center">
@@ -95,7 +95,7 @@ export default async function AboutPage() {
           <div className="border border-navy/10 p-6 md:p-8 bg-white">
             {s?.karenImage ? (
               <div className="relative w-full aspect-[4/3] mb-4 md:mb-6 overflow-hidden">
-                <Image src={urlFor(s.karenImage).width(800).url()} alt="Karen" fill className="object-cover" />
+                <Image src={urlFor(s.karenImage).width(800).url()} alt="Karen" fill placeholder={s.karenImageLqip ? 'blur' : 'empty'} blurDataURL={s.karenImageLqip ?? undefined} className="object-cover" />
               </div>
             ) : (
               <div className="w-full aspect-[4/3] bg-navy/10 mb-4 md:mb-6 flex items-center justify-center">
@@ -133,7 +133,7 @@ export default async function AboutPage() {
           </h2>
           {s?.boatImage ? (
             <div className="relative w-full aspect-[4/3] mb-4 md:mb-6 overflow-hidden">
-              <Image src={urlFor(s.boatImage).width(1200).url()} alt="Plan B" fill className="object-cover" />
+              <Image src={urlFor(s.boatImage).width(1200).url()} alt="Plan B" fill placeholder={s.boatImageLqip ? 'blur' : 'empty'} blurDataURL={s.boatImageLqip ?? undefined} className="object-cover" />
             </div>
           ) : (
             <div className="w-full aspect-[4/3] bg-navy/10 mb-4 md:mb-6 flex items-center justify-center">

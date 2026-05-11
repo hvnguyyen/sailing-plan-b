@@ -79,6 +79,8 @@ export default function ScrollGallery() {
                   src={urlFor(image).width(1200).url()}
                   alt={image.alt || 'Plan B'}
                   fill
+                  placeholder={image.lqip ? 'blur' : 'empty'}
+                  blurDataURL={image.lqip ?? undefined}
                   className="object-cover group-hover:opacity-90 transition-opacity duration-200"
                   sizes="(max-width: 768px) 80vw, 75vw"
                 />

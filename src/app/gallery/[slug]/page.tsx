@@ -11,6 +11,33 @@ export async function generateStaticParams() {
   return albums.map((album: any) => ({ slug: album.slug.current }))
 }
 
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>
+}) {
+  const { slug } = await params
+  const album = await client.fetch(albumBySlugQuery, { slug })
+  if (!album) return {}
+  const description = album.description || `Photos from ${album.title}`
+  const ogImage = album.coverImage ? urlFor(album.coverImage).width(1200).url() : undefined
+  return {
+    title: album.title,
+    description,
+    openGraph: {
+      title: album.title,
+      description,
+      images: ogImage ? [ogImage] : [],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: album.title,
+      description,
+      images: ogImage ? [ogImage] : [],
+    },
+  }
+}
+
 export default async function AlbumPage({
   params,
 }: {
@@ -65,6 +92,8 @@ export default async function AlbumPage({
                         src={urlFor(sub.coverImage).width(800).url()}
                         alt={sub.title}
                         fill
+                        placeholder={sub.coverLqip ? 'blur' : 'empty'}
+                        blurDataURL={sub.coverLqip ?? undefined}
                         className="object-cover group-hover:scale-105 transition-transform duration-500"
                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       />
@@ -104,7 +133,6 @@ export default async function AlbumPage({
         )}
 
         {/* Images */}
-        {/* Images */}
         {hasImages ? (
           <ImageLightbox images={album.images} albumTitle={album.title} />
         ) : !hasSubAlbums && (
@@ -114,14 +142,26 @@ export default async function AlbumPage({
         )}
       </section>
 
-      {/* Back */}
+      {/* Breadcrumb */}
       <div className="max-w-6xl mx-auto px-6 md:px-8 pb-16 md:pb-24">
-        <Link
-          href="/gallery"
-          className="font-[family-name:var(--font-mono)] text-xs tracking-widest uppercase text-navy/40 hover:text-navy transition-colors duration-200"
-        >
-          ← Back to gallery
-        </Link>
+        <nav className="font-[family-name:var(--font-mono)] text-xs tracking-widest uppercase flex items-center gap-2 flex-wrap">
+          <Link href="/gallery" className="text-navy/40 hover:text-navy transition-colors duration-200">
+            Gallery
+          </Link>
+          {album.parentAlbum && (
+            <>
+              <span className="text-navy/20">›</span>
+              <Link
+                href={`/gallery/${album.parentAlbum.slug}`}
+                className="text-navy/40 hover:text-navy transition-colors duration-200"
+              >
+                {album.parentAlbum.title}
+              </Link>
+            </>
+          )}
+          <span className="text-navy/20">›</span>
+          <span className="text-navy/60">{album.title}</span>
+        </nav>
       </div>
 
     </main>
