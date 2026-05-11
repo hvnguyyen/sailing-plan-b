@@ -40,10 +40,19 @@ export default function ImageLightbox({ images, albumTitle }: Props) {
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               />
             </div>
-            {image.caption && (
-              <p className="font-[family-name:var(--font-mono)] text-xs tracking-wider uppercase text-navy/30 mt-2">
-                {image.caption}
-              </p>
+            {(image.location || image.caption) && (
+              <div className="mt-2 flex flex-col gap-0.5">
+                {image.location && (
+                  <p className="font-[family-name:var(--font-mono)] text-xs tracking-widest uppercase text-red">
+                    {image.location}
+                  </p>
+                )}
+                {image.caption && (
+                  <p className="font-[family-name:var(--font-mono)] text-xs tracking-wider uppercase text-navy/30">
+                    {image.caption}
+                  </p>
+                )}
+              </div>
             )}
           </div>
         ))}

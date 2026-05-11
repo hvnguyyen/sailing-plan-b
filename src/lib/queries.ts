@@ -63,6 +63,7 @@ export const albumBySlugQuery = groq`
       asset,
       alt,
       caption,
+      location,
     },
     "subAlbums": *[_type == "album" && references(^._id)] | order(date asc) {
       _id,

@@ -58,11 +58,6 @@ export default async function GalleryPage() {
 
                 {/* Info */}
                 <div className="pt-4">
-                  {album.location && (
-                    <p className="font-[family-name:var(--font-mono)] text-xs tracking-widest uppercase text-red mb-1">
-                      {album.location}
-                    </p>
-                  )}
                   <h2 className="font-[family-name:var(--font-playfair)] text-2xl font-bold text-navy group-hover:italic transition-all duration-200">
                     {album.title}
                   </h2>

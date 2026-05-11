@@ -71,6 +71,12 @@ export const albumType = defineType({
               title: 'Caption',
               type: 'string',
             }),
+            defineField({
+              name: 'location',
+              title: 'Location',
+              type: 'string',
+              description: 'Optional — e.g. "Bryggen, Bergen"',
+            }),
           ],
         },
       ],
