@@ -41,6 +41,28 @@ export const metadata: Metadata = {
   },
 }
 
+const siteSchema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Sailing Plan B',
+    url: 'https://sailing-planb.com',
+    description: 'Ulrik & Karen sailing the world on a Najad 343',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'Main Navigation',
+    itemListElement: [
+      { '@type': 'SiteNavigationElement', position: 1, name: 'Home', url: 'https://sailing-planb.com/' },
+      { '@type': 'SiteNavigationElement', position: 2, name: 'Blog', url: 'https://sailing-planb.com/blog' },
+      { '@type': 'SiteNavigationElement', position: 3, name: 'Gallery', url: 'https://sailing-planb.com/gallery' },
+      { '@type': 'SiteNavigationElement', position: 4, name: 'About', url: 'https://sailing-planb.com/about' },
+      { '@type': 'SiteNavigationElement', position: 5, name: 'Instagram', url: 'https://www.instagram.com/sailing.planb' },
+    ],
+  },
+]
+
 export default function RootLayout({
   children,
 }: {
@@ -52,6 +74,10 @@ export default function RootLayout({
       className={`${playfair.variable} ${lora.variable} ${dmMono.variable}`}
     >
       <body className="bg-cream text-navy antialiased">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(siteSchema) }}
+        />
         <Navbar />
         {children}
         <Footer />

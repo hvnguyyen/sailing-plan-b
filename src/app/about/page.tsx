@@ -1,7 +1,13 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
 import { client, urlFor } from '@/lib/sanity'
 import { siteSettingsQuery } from '@/lib/queries'
+
+export const metadata: Metadata = {
+  title: 'About',
+  description: 'Meet Ulrik & Karen, two Norwegians sailing anywhere on a 1984 Najad 343 named Plan B.',
+}
 
 function InstagramIcon() {
   return (

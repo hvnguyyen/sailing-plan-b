@@ -1,7 +1,13 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
 import { client, urlFor } from '@/lib/sanity'
 import { albumsQuery } from '@/lib/queries'
+
+export const metadata: Metadata = {
+  title: 'Gallery',
+  description: 'Photos from the journey, shot by Karen on board Plan B.',
+}
 
 export const revalidate = 60
 

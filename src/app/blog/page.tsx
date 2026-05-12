@@ -1,6 +1,12 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { client } from '@/lib/sanity'
 import { postsQuery } from '@/lib/queries'
+
+export const metadata: Metadata = {
+  title: 'Blog',
+  description: 'The sailing log, written from wherever Plan B happens to be.',
+}
 
 export const revalidate = 60
 
