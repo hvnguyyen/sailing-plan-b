@@ -22,6 +22,7 @@ const dmMono = DM_Mono({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://www.sailing-planb.com'),
   title: {
     default: 'Sailing Plan B',
     template: '%s | Sailing Plan B',
