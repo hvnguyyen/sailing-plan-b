@@ -20,8 +20,11 @@ export default async function BlogPage() {
           The logbook
         </p>
         <h1 className="font-[family-name:var(--font-playfair)] text-4xl md:text-6xl lg:text-8xl font-bold leading-[0.95]">
-          From <span className="italic text-sand whitespace-nowrap">the sea</span>
+          Blog
         </h1>
+        <p className="font-[family-name:var(--font-lora)] italic text-sand/60 text-base md:text-lg mt-4 md:mt-6">
+          Here&apos;s what&apos;s up.
+        </p>
       </section>
 
       <section className="max-w-3xl mx-auto px-8 py-16 md:py-20 lg:py-24">

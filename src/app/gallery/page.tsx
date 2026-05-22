@@ -23,8 +23,11 @@ export default async function GalleryPage() {
           The gallery
         </p>
         <h1 className="font-[family-name:var(--font-playfair)] text-4xl md:text-6xl lg:text-8xl font-bold leading-[0.95]">
-          From <span className="italic text-sand whitespace-nowrap">the lens</span>
+          Gallery
         </h1>
+        <p className="font-[family-name:var(--font-lora)] italic text-sand/60 text-base md:text-lg mt-4 md:mt-6">
+          For the stalkers.
+        </p>
       </section>
 
       {/* Albums grid */}
