@@ -18,6 +18,22 @@ export const siteSettingsType = defineType({
   fields: [
     // Homepage
     defineField({
+      name: 'heroVideo',
+      title: 'Homepage — Hero video',
+      type: 'file',
+      options: { accept: 'video/*' },
+      description: 'Looping background video. Takes priority over the hero image.',
+      group: 'homepage',
+    }),
+    defineField({
+      name: 'heroImage',
+      title: 'Homepage — Hero image',
+      type: 'image',
+      options: { hotspot: true },
+      description: 'Background photo shown if no video is set.',
+      group: 'homepage',
+    }),
+    defineField({
       name: 'heroSubtitle',
       title: 'Homepage — Hero subtitle',
       type: 'string',

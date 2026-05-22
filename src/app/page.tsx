@@ -1,6 +1,7 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import ScrollGallery from '@/components/ui/ScrollGallery'
-import { client } from '@/lib/sanity'
+import { client, urlFor } from '@/lib/sanity'
 import { siteSettingsQuery } from '@/lib/queries'
 
 export const revalidate = 60
@@ -12,8 +13,34 @@ export default async function Home() {
     <main>
       <section className="relative h-screen min-h-[600px] bg-navy flex flex-col items-center justify-center text-center overflow-hidden">
 
-        {/* Background gradient */}
-        <div className="absolute inset-0 bg-gradient-to-b from-navy via-navy-mid to-navy" />
+        {/* Background: video > image > plain navy */}
+        {settings?.heroVideoUrl ? (
+          <video
+            className="absolute inset-0 w-full h-full object-cover"
+            src={settings.heroVideoUrl}
+            autoPlay
+            muted
+            loop
+            playsInline
+          />
+        ) : settings?.heroImage ? (
+          <Image
+            src={urlFor(settings.heroImage).width(1920).url()}
+            alt=""
+            fill
+            className="object-cover"
+            priority
+            placeholder={settings.heroImageLqip ? 'blur' : 'empty'}
+            blurDataURL={settings.heroImageLqip ?? undefined}
+          />
+        ) : null}
+
+        {/* Dark overlay — lighter when there's a background media */}
+        <div className={`absolute inset-0 ${
+          settings?.heroVideoUrl || settings?.heroImage
+            ? 'bg-gradient-to-b from-navy/70 via-navy/50 to-navy/70'
+            : 'bg-gradient-to-b from-navy via-navy-mid to-navy'
+        }`} />
 
         {/* Content */}
         <div className="relative z-10 px-6 md:px-8" spellCheck={false}>
