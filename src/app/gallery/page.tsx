@@ -20,14 +20,11 @@ export default async function GalleryPage() {
       {/* Header */}
       <section className="bg-navy text-white pt-28 md:pt-36 lg:pt-40 pb-16 md:pb-20 lg:pb-24 px-8 text-center">
         <p className="font-[family-name:var(--font-mono)] text-xs tracking-[0.25em] uppercase text-red-light mb-4">
-          The gallery
+          Gallery
         </p>
         <h1 className="font-[family-name:var(--font-playfair)] text-4xl md:text-6xl lg:text-8xl font-bold leading-[0.95]">
-          Gallery
-        </h1>
-        <p className="font-[family-name:var(--font-lora)] italic text-sand/60 text-base md:text-lg mt-4 md:mt-6">
           For the stalkers.
-        </p>
+        </h1>
       </section>
 
       {/* Albums grid */}

@@ -17,14 +17,11 @@ export default async function BlogPage() {
     <main className="bg-cream">
       <section className="bg-navy text-white pt-28 md:pt-36 lg:pt-40 pb-16 md:pb-20 lg:pb-24 px-8 text-center">
         <p className="font-[family-name:var(--font-mono)] text-xs tracking-[0.25em] uppercase text-red-light mb-4">
-          The logbook
+          Blog
         </p>
         <h1 className="font-[family-name:var(--font-playfair)] text-4xl md:text-6xl lg:text-8xl font-bold leading-[0.95]">
-          Blog
-        </h1>
-        <p className="font-[family-name:var(--font-lora)] italic text-sand/60 text-base md:text-lg mt-4 md:mt-6">
           Here&apos;s what&apos;s up.
-        </p>
+        </h1>
       </section>
 
       <section className="max-w-3xl mx-auto px-8 py-16 md:py-20 lg:py-24">
