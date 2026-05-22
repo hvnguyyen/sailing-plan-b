@@ -16,7 +16,7 @@ export default function Footer() {
             Home
           </Link>
           <Link href="/blog" className="font-[family-name:var(--font-mono)] text-xs tracking-widest uppercase hover:text-white transition-colors duration-200">
-            Blog
+            Log
           </Link>
           <Link href="/about" className="font-[family-name:var(--font-mono)] text-xs tracking-widest uppercase hover:text-white transition-colors duration-200">
             About

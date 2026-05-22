@@ -56,7 +56,7 @@ const siteSchema = [
     name: 'Main Navigation',
     itemListElement: [
       { '@type': 'SiteNavigationElement', position: 1, name: 'Home', url: 'https://sailing-planb.com/' },
-      { '@type': 'SiteNavigationElement', position: 2, name: 'Blog', url: 'https://sailing-planb.com/blog' },
+      { '@type': 'SiteNavigationElement', position: 2, name: 'Log', url: 'https://sailing-planb.com/blog' },
       { '@type': 'SiteNavigationElement', position: 3, name: 'Gallery', url: 'https://sailing-planb.com/gallery' },
       { '@type': 'SiteNavigationElement', position: 4, name: 'About', url: 'https://sailing-planb.com/about' },
       { '@type': 'SiteNavigationElement', position: 5, name: 'Instagram', url: 'https://www.instagram.com/sailing.planb' },
