@@ -24,6 +24,7 @@ export const postBySlugQuery = groq`
     location,
     mainImage,
     "mainImageLqip": mainImage.asset->metadata.lqip,
+    "mainImageDimensions": mainImage.asset->metadata.dimensions,
     body,
     "categories": categories[]->title,
     "author": author->{ name, image },

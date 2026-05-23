@@ -85,21 +85,26 @@ export default async function PostPage({
         )}
       </section>
 
-      {/* Main image — smaller and contained */}
-      {post.mainImage && (
-        <div className="max-w-3xl mx-auto px-6 md:px-8 pt-12 md:pt-16">
-          <div className="relative w-full aspect-[16/9] overflow-hidden">
-            <Image
-              src={urlFor(post.mainImage).width(1200).url()}
-              alt={post.title}
-              fill
-              placeholder={post.mainImageLqip ? 'blur' : 'empty'}
-              blurDataURL={post.mainImageLqip ?? undefined}
-              className="object-cover"
-            />
+      {/* Main image — respects natural aspect ratio */}
+      {post.mainImage && (() => {
+        const w = post.mainImageDimensions?.width ?? 16
+        const h = post.mainImageDimensions?.height ?? 9
+        const isPortrait = h > w
+        return (
+          <div className={`mx-auto px-6 md:px-8 pt-12 md:pt-16 ${isPortrait ? 'max-w-sm md:max-w-md' : 'max-w-3xl'}`}>
+            <div className="relative w-full overflow-hidden" style={{ aspectRatio: `${w}/${h}` }}>
+              <Image
+                src={urlFor(post.mainImage).width(isPortrait ? 800 : 1200).url()}
+                alt={post.title}
+                fill
+                placeholder={post.mainImageLqip ? 'blur' : 'empty'}
+                blurDataURL={post.mainImageLqip ?? undefined}
+                className="object-cover"
+              />
+            </div>
           </div>
-        </div>
-      )}
+        )
+      })()}
 
       {/* Content */}
       <article className="max-w-2xl mx-auto px-6 md:px-8 py-12 md:py-16
