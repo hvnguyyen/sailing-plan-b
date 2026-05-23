@@ -85,16 +85,16 @@ export default async function PostPage({
         )}
       </section>
 
-      {/* Main image — respects natural aspect ratio */}
+      {/* Main image — fixed ratio per orientation, same container width */}
       {post.mainImage && (() => {
-        const w = post.mainImageDimensions?.width ?? 16
-        const h = post.mainImageDimensions?.height ?? 9
+        const w = post.mainImageDimensions?.width ?? 3
+        const h = post.mainImageDimensions?.height ?? 2
         const isPortrait = h > w
         return (
-          <div className={`mx-auto px-6 md:px-8 pt-12 md:pt-16 ${isPortrait ? 'max-w-sm md:max-w-md' : 'max-w-3xl'}`}>
-            <div className="relative w-full overflow-hidden" style={{ aspectRatio: `${w}/${h}` }}>
+          <div className="max-w-3xl mx-auto px-6 md:px-8 pt-12 md:pt-16">
+            <div className={`relative w-full overflow-hidden ${isPortrait ? 'aspect-[2/3]' : 'aspect-[3/2]'}`}>
               <Image
-                src={urlFor(post.mainImage).width(isPortrait ? 800 : 1200).url()}
+                src={urlFor(post.mainImage).width(1200).url()}
                 alt={post.title}
                 fill
                 placeholder={post.mainImageLqip ? 'blur' : 'empty'}
