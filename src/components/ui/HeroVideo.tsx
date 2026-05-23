@@ -17,27 +17,22 @@ export default function HeroVideo({ src }: { src: string }) {
       video.play().catch(() => {})
     }
 
-    // Play once the browser has buffered enough
     video.addEventListener('canplay', tryPlay)
     video.addEventListener('loadeddata', tryPlay)
 
-    // Resume when the user comes back to the tab/app
+    // Resume when coming back to the tab/app
     const onVisibility = () => {
       if (document.visibilityState === 'visible') tryPlay()
     }
     document.addEventListener('visibilitychange', onVisibility)
 
-    // Catch unexpected pauses from iOS background/foreground transitions
+    // Catch iOS pausing the video on app switch
     const onPause = () => {
       setTimeout(() => {
         if (!video.ended && document.visibilityState === 'visible') tryPlay()
       }, 150)
     }
     video.addEventListener('pause', onPause)
-
-    // iOS Low Power Mode blocks all autoplay — start on first user touch instead
-    document.addEventListener('touchstart', tryPlay, { once: true })
-    document.addEventListener('click', tryPlay, { once: true })
 
     video.load()
     tryPlay()
@@ -47,8 +42,6 @@ export default function HeroVideo({ src }: { src: string }) {
       video.removeEventListener('loadeddata', tryPlay)
       video.removeEventListener('pause', onPause)
       document.removeEventListener('visibilitychange', onVisibility)
-      document.removeEventListener('touchstart', tryPlay)
-      document.removeEventListener('click', tryPlay)
     }
   }, [])
 
