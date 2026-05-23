@@ -9,7 +9,7 @@ export default function HeroVideo({ src }: { src: string }) {
     const video = ref.current
     if (!video) return
 
-    // React doesn't reliably set the muted attribute on video elements — set it directly
+    // React doesn't reliably write the muted attribute to the DOM on iOS
     video.muted = true
 
     const tryPlay = () => {
@@ -17,25 +17,32 @@ export default function HeroVideo({ src }: { src: string }) {
       video.play().catch(() => {})
     }
 
-    // canplay fires when browser has enough data; loadeddata is an earlier fallback
+    // Fire when the browser has buffered enough to start
     video.addEventListener('canplay', tryPlay)
     video.addEventListener('loadeddata', tryPlay)
 
+    // iOS pauses the video when you switch apps — resume when the tab comes back
     const onVisibility = () => {
-      if (document.visibilityState === 'visible') {
-        video.load()
-        tryPlay()
-      }
+      if (document.visibilityState === 'visible') tryPlay()
     }
     document.addEventListener('visibilitychange', onVisibility)
 
-    // Force the browser to start loading (iOS ignores preload="auto" by default)
+    // Catch any unexpected pause (iOS background/foreground transitions)
+    const onPause = () => {
+      setTimeout(() => {
+        if (!video.ended && document.visibilityState === 'visible') tryPlay()
+      }, 150)
+    }
+    video.addEventListener('pause', onPause)
+
+    // Force the browser to start loading, then try to play
     video.load()
     tryPlay()
 
     return () => {
       video.removeEventListener('canplay', tryPlay)
       video.removeEventListener('loadeddata', tryPlay)
+      video.removeEventListener('pause', onPause)
       document.removeEventListener('visibilitychange', onVisibility)
     }
   }, [])
