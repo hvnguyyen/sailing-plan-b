@@ -8,6 +8,7 @@ import {media} from 'sanity-plugin-media'
 import {apiVersion, dataset, projectId} from './src/sanity/env'
 import {schema} from './src/sanity/schemaTypes'
 import {structure} from './src/sanity/structure'
+import {heicPlugin} from './src/sanity/plugins/heicPlugin'
 
 export default defineConfig({
   basePath: '/studio',
@@ -18,5 +19,6 @@ export default defineConfig({
     structureTool({structure}),
     visionTool({defaultApiVersion: apiVersion}),
     media(),
+    heicPlugin(),
   ],
 })
