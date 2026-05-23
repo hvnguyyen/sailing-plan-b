@@ -34,6 +34,10 @@ export default function HeroVideo({ src }: { src: string }) {
     }
     video.addEventListener('pause', onPause)
 
+    // If autoplay is blocked (e.g. after returning to tab), start on first tap
+    document.addEventListener('touchstart', tryPlay, { once: true })
+    document.addEventListener('click', tryPlay, { once: true })
+
     video.load()
     tryPlay()
 
@@ -42,6 +46,8 @@ export default function HeroVideo({ src }: { src: string }) {
       video.removeEventListener('loadeddata', tryPlay)
       video.removeEventListener('pause', onPause)
       document.removeEventListener('visibilitychange', onVisibility)
+      document.removeEventListener('touchstart', tryPlay)
+      document.removeEventListener('click', tryPlay)
     }
   }, [])
 
