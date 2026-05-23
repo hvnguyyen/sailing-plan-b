@@ -8,7 +8,25 @@ export default function HeroVideo({ src }: { src: string }) {
   useEffect(() => {
     const video = ref.current
     if (!video) return
-    video.play().catch(() => {})
+
+    const tryPlay = () => video.play().catch(() => {})
+
+    // Play as soon as the browser has enough data
+    video.addEventListener('canplay', tryPlay)
+
+    // Resume when user comes back to the tab / app
+    const onVisibility = () => {
+      if (document.visibilityState === 'visible') tryPlay()
+    }
+    document.addEventListener('visibilitychange', onVisibility)
+
+    // Also try immediately in case it's already ready
+    tryPlay()
+
+    return () => {
+      video.removeEventListener('canplay', tryPlay)
+      document.removeEventListener('visibilitychange', onVisibility)
+    }
   }, [])
 
   return (
