@@ -59,7 +59,7 @@ export function BulkImageUpload(props: any) {
         ref={inputRef}
         type="file"
         multiple
-        accept="image/*"
+        accept="image/*,.heic,.heif"
         style={{ display: 'none' }}
         onChange={handleUpload}
       />
