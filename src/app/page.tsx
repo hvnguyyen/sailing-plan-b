@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import ScrollGallery from '@/components/ui/ScrollGallery'
+import HeroVideo from '@/components/ui/HeroVideo'
 import { client, urlFor } from '@/lib/sanity'
 import { siteSettingsQuery } from '@/lib/queries'
 
@@ -15,14 +16,7 @@ export default async function Home() {
 
         {/* Background: video > image > plain navy */}
         {settings?.heroVideoUrl ? (
-          <video
-            className="absolute inset-0 w-full h-full object-cover"
-            src={settings.heroVideoUrl}
-            autoPlay
-            muted
-            loop
-            playsInline
-          />
+          <HeroVideo src={settings.heroVideoUrl} />
         ) : settings?.heroImage ? (
           <Image
             src={urlFor(settings.heroImage).width(1920).url()}
