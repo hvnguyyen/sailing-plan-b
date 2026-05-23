@@ -9,22 +9,33 @@ export default function HeroVideo({ src }: { src: string }) {
     const video = ref.current
     if (!video) return
 
-    const tryPlay = () => video.play().catch(() => {})
+    // React doesn't reliably set the muted attribute on video elements — set it directly
+    video.muted = true
 
-    // Play as soon as the browser has enough data
+    const tryPlay = () => {
+      video.muted = true
+      video.play().catch(() => {})
+    }
+
+    // canplay fires when browser has enough data; loadeddata is an earlier fallback
     video.addEventListener('canplay', tryPlay)
+    video.addEventListener('loadeddata', tryPlay)
 
-    // Resume when user comes back to the tab / app
     const onVisibility = () => {
-      if (document.visibilityState === 'visible') tryPlay()
+      if (document.visibilityState === 'visible') {
+        video.load()
+        tryPlay()
+      }
     }
     document.addEventListener('visibilitychange', onVisibility)
 
-    // Also try immediately in case it's already ready
+    // Force the browser to start loading (iOS ignores preload="auto" by default)
+    video.load()
     tryPlay()
 
     return () => {
       video.removeEventListener('canplay', tryPlay)
+      video.removeEventListener('loadeddata', tryPlay)
       document.removeEventListener('visibilitychange', onVisibility)
     }
   }, [])
