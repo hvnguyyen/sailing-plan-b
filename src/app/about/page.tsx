@@ -42,7 +42,10 @@ export default async function AboutPage() {
         <h1 className="font-[family-name:var(--font-playfair)] text-4xl md:text-6xl lg:text-8xl font-bold leading-[0.95]">
           Ulrik <span className="italic text-sand">&</span> Karen
         </h1>
-        <p className="font-[family-name:var(--font-lora)] italic text-sand/60 text-base md:text-lg mt-4 md:mt-6">
+        <p className="font-[family-name:var(--font-mono)] text-xs tracking-[0.2em] uppercase text-white/40 mt-4 md:mt-5">
+          Nøtterøy, Norway
+        </p>
+        <p className="font-[family-name:var(--font-lora)] italic text-sand/60 text-base md:text-lg mt-3 md:mt-4">
           {s?.aboutSubtitle || 'Two people from Norway with one big idea.'}
         </p>
       </section>
