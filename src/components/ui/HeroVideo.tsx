@@ -9,7 +9,7 @@ export default function HeroVideo({ src }: { src: string }) {
     const video = ref.current
     if (!video) return
 
-    // React doesn't reliably write the muted attribute to the DOM on iOS
+    // React doesn't reliably write muted to the DOM on iOS
     video.muted = true
 
     const tryPlay = () => {
@@ -17,17 +17,17 @@ export default function HeroVideo({ src }: { src: string }) {
       video.play().catch(() => {})
     }
 
-    // Fire when the browser has buffered enough to start
+    // Play once the browser has buffered enough
     video.addEventListener('canplay', tryPlay)
     video.addEventListener('loadeddata', tryPlay)
 
-    // iOS pauses the video when you switch apps — resume when the tab comes back
+    // Resume when the user comes back to the tab/app
     const onVisibility = () => {
       if (document.visibilityState === 'visible') tryPlay()
     }
     document.addEventListener('visibilitychange', onVisibility)
 
-    // Catch any unexpected pause (iOS background/foreground transitions)
+    // Catch unexpected pauses from iOS background/foreground transitions
     const onPause = () => {
       setTimeout(() => {
         if (!video.ended && document.visibilityState === 'visible') tryPlay()
@@ -35,7 +35,10 @@ export default function HeroVideo({ src }: { src: string }) {
     }
     video.addEventListener('pause', onPause)
 
-    // Force the browser to start loading, then try to play
+    // iOS Low Power Mode blocks all autoplay — start on first user touch instead
+    document.addEventListener('touchstart', tryPlay, { once: true })
+    document.addEventListener('click', tryPlay, { once: true })
+
     video.load()
     tryPlay()
 
@@ -44,6 +47,8 @@ export default function HeroVideo({ src }: { src: string }) {
       video.removeEventListener('loadeddata', tryPlay)
       video.removeEventListener('pause', onPause)
       document.removeEventListener('visibilitychange', onVisibility)
+      document.removeEventListener('touchstart', tryPlay)
+      document.removeEventListener('click', tryPlay)
     }
   }, [])
 

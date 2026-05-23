@@ -40,6 +40,16 @@ export default function Navbar() {
         <Link
           href="/"
           className="font-[family-name:var(--font-playfair)] text-xl text-white tracking-wide"
+          onClick={(e) => {
+            if (window.innerWidth < 768) {
+              // If already on home, prevent navigation and just scroll up
+              if (pathname === '/') e.preventDefault()
+              window.scrollTo({ top: 0, behavior: 'smooth' })
+            } else {
+              e.preventDefault()
+              window.location.href = '/'
+            }
+          }}
         >
           Sailing <span className="text-red-light italic">Plan B</span>
         </Link>

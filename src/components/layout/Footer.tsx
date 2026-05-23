@@ -1,10 +1,16 @@
+'use client'
+
 import Link from 'next/link'
+
+const scrollTop = () => window.scrollTo({ top: 0, behavior: 'smooth' })
+
+const linkClass = 'font-[family-name:var(--font-mono)] text-xs tracking-widest uppercase hover:text-white transition-colors duration-200'
 
 export default function Footer() {
   return (
     <footer className="bg-navy text-white/40 py-12 px-8">
 
-      {/* Logo + links sentrert */}
+      {/* Logo + links */}
       <div className="max-w-3xl mx-auto flex flex-col items-center gap-6">
 
         <p className="font-[family-name:var(--font-playfair)] text-lg text-white">
@@ -12,20 +18,14 @@ export default function Footer() {
         </p>
 
         <div className="flex flex-wrap justify-center gap-6 md:gap-8">
-          <Link href="/" className="font-[family-name:var(--font-mono)] text-xs tracking-widest uppercase hover:text-white transition-colors duration-200">
-            Home
-          </Link>
-          <Link href="/blog" className="font-[family-name:var(--font-mono)] text-xs tracking-widest uppercase hover:text-white transition-colors duration-200">
-            Log
-          </Link>
-          <Link href="/about" className="font-[family-name:var(--font-mono)] text-xs tracking-widest uppercase hover:text-white transition-colors duration-200">
-            About
-          </Link>
+          <Link href="/" className={linkClass} onClick={scrollTop}>Home</Link>
+          <Link href="/blog" className={linkClass} onClick={scrollTop}>Log</Link>
+          <Link href="/about" className={linkClass} onClick={scrollTop}>About</Link>
           <a
             href="https://www.instagram.com/sailing.planb"
             target="_blank"
             rel="noopener noreferrer"
-            className="font-[family-name:var(--font-mono)] text-xs tracking-widest uppercase hover:text-white transition-colors duration-200"
+            className={linkClass}
           >
             Instagram
           </a>
