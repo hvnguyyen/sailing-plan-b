@@ -37,11 +37,6 @@ export const albumType = defineType({
       type: 'string',
     }),
     defineField({
-    name: 'coordinates',
-    title: 'Coordinates',
-    type: 'geopoint',
-    }),
-    defineField({
       name: 'coverImage',
       title: 'Cover Image',
       type: 'image',
