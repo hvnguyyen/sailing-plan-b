@@ -1,7 +1,7 @@
 import type { StructureResolver } from 'sanity/structure'
 import {
   ImagesIcon, CogIcon, DocumentTextIcon,
-  TagIcon, UserIcon, EditIcon, FolderIcon,
+  TagIcon, UserIcon, EditIcon,
 } from '@sanity/icons'
 
 export const structure: StructureResolver = (S) =>
@@ -29,29 +29,19 @@ export const structure: StructureResolver = (S) =>
             .title('Albums')
             .filter('_type == "album" && !defined(parentAlbum)')
             .child((parentId) =>
-              // Column 2: minimal menu — edit or open sub-albums
-              S.list()
-                .title('Album')
-                .items([
-                  S.documentListItem()
-                    .id(parentId)
-                    .schemaType('album')
-                    .title('Edit album')
-                    .icon(EditIcon),
-
-                  S.listItem()
-                    .title('Sub-albums')
-                    .icon(FolderIcon)
-                    .child(
-                      // Column 3: children — "+" auto-assigns this parent
-                      S.documentList()
-                        .title('Sub-albums')
-                        .filter('_type == "album" && parentAlbum._ref == $parentId')
-                        .params({ parentId })
-                        .initialValueTemplates([
-                          S.initialValueTemplateItem('album-child', { parentId }),
-                        ])
-                    ),
+              // Column 2: sub-albums directly — edit parent via ⋯ menu at top of column
+              S.documentList()
+                .title('Sub-albums')
+                .filter('_type == "album" && parentAlbum._ref == $parentId')
+                .params({ parentId })
+                .initialValueTemplates([
+                  S.initialValueTemplateItem('album-child', { parentId }),
+                ])
+                .menuItems([
+                  S.menuItem()
+                    .title('Edit parent album')
+                    .icon(EditIcon)
+                    .intent({ type: 'edit', params: { id: parentId, type: 'album' } }),
                 ])
             )
         ),
