@@ -1,7 +1,7 @@
 import type { StructureResolver } from 'sanity/structure'
 import {
   ImagesIcon, CogIcon, DocumentTextIcon,
-  TagIcon, UserIcon, ImageIcon, EditIcon, FolderIcon,
+  TagIcon, UserIcon, EditIcon, FolderIcon,
 } from '@sanity/icons'
 
 export const structure: StructureResolver = (S) =>
@@ -55,9 +55,6 @@ export const structure: StructureResolver = (S) =>
                 ])
             )
         ),
-
-      S.listItem().title('Gallery Images').icon(ImageIcon)
-        .child(S.documentTypeList('galleryImage').title('Gallery Images')),
 
       S.divider(),
 

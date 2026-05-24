@@ -31,14 +31,6 @@ export const postBySlugQuery = groq`
   }
 `
 
-export const galleryQuery = groq`
-  *[_type == "galleryImage"] | order(order asc) {
-    _id,
-    image,
-    caption,
-    order,
-  }
-`
 
 export const albumsQuery = groq`
   *[_type == "album" && !defined(parentAlbum)] | order(_createdAt desc) {
