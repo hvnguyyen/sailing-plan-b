@@ -21,4 +21,17 @@ export default defineConfig({
     media(),
     heicPlugin(),
   ],
+  // When creating a child album from within a parent folder, auto-assign the parent
+  templates: (prev) => [
+    ...prev,
+    {
+      id: 'album-child',
+      title: 'Sub-album',
+      schemaType: 'album',
+      parameters: [{ name: 'parentId', type: 'string' }],
+      value: ({ parentId }: { parentId: string }) => ({
+        parentAlbum: { _type: 'reference', _ref: parentId },
+      }),
+    },
+  ],
 })
