@@ -50,7 +50,7 @@ export default async function Home() {
           <p className="font-[family-name:var(--font-lora)] italic text-sand/70 text-base md:text-xl mt-4 md:mt-6 max-w-xs md:max-w-md mx-auto">
             {settings?.currentLocation ? (
               <>Currently in <span className="text-red-light">{settings.currentLocation}</span></>
-            ) : (settings?.heroSubtitle || 'Two people from Nøtterøy, Norway.')}
+            ) : 'Two people from Nøtterøy, Norway.'}
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-4 mt-8 md:mt-10">

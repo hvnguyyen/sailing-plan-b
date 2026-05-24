@@ -34,13 +34,6 @@ export const siteSettingsType = defineType({
       group: 'homepage',
     }),
     defineField({
-      name: 'heroSubtitle',
-      title: 'Homepage — Hero subtitle',
-      type: 'string',
-      description: 'e.g. "Two people from Nøtterøy, Norway."',
-      group: 'homepage',
-    }),
-    defineField({
       name: 'currentLocation',
       title: 'Homepage — Current location',
       type: 'string',

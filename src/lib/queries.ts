@@ -82,7 +82,6 @@ export const siteSettingsQuery = groq`
     "heroVideoUrl": heroVideo.asset->url,
     heroImage,
     "heroImageLqip": heroImage.asset->metadata.lqip,
-    heroSubtitle,
     currentLocation,
     aboutSubtitle,
     planBStoryTitle,
