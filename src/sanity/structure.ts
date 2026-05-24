@@ -33,28 +33,10 @@ export const structure: StructureResolver = (S) =>
             .title('Albums')
             .filter('_type == "album" && !defined(parentAlbum)')
             .child((parentId) =>
-              S.list()
-                .title('Album')
-                .items([
-                  // Edit the parent album itself
-                  S.documentListItem()
-                    .id(parentId)
-                    .schemaType('album')
-                    .title('Edit album'),
-
-                  S.divider(),
-
-                  // Sub-albums under this parent
-                  S.listItem()
-                    .title('Sub-albums')
-                    .icon(ImagesIcon)
-                    .child(
-                      S.documentList()
-                        .title('Sub-albums')
-                        .filter('_type == "album" && parentAlbum._ref == $parentId')
-                        .params({ parentId })
-                    ),
-                ])
+              S.documentList()
+                .title('Sub-albums')
+                .filter('_type == "album" && parentAlbum._ref == $parentId')
+                .params({ parentId })
             )
         ),
 
