@@ -9,7 +9,6 @@ import { urlFor } from '@/lib/sanity'
 
 interface VideoItem {
   url: string
-  caption?: string
 }
 
 interface Props {
@@ -62,7 +61,7 @@ export default function ImageLightbox({ images, albumTitle, videos = [] }: Props
   const slides = images.map((image) => ({
     src: urlFor(image).width(1920).url(),
     download: urlFor(image).width(1920).url(),
-    alt: image.alt || albumTitle,
+    alt: albumTitle,
   }))
 
   return (
@@ -83,7 +82,7 @@ export default function ImageLightbox({ images, albumTitle, videos = [] }: Props
                 <div className="relative w-full overflow-hidden">
                   <Image
                     src={urlFor(item.data).width(800).url()}
-                    alt={item.data.alt || albumTitle}
+                    alt={albumTitle}
                     width={800}
                     height={600}
                     placeholder={item.data.lqip ? 'blur' : 'empty'}
@@ -92,20 +91,6 @@ export default function ImageLightbox({ images, albumTitle, videos = [] }: Props
                     sizes="(max-width: 768px) 50vw, (max-width: 1200px) 50vw, 33vw"
                   />
                 </div>
-                {(item.data.location || item.data.caption) && (
-                  <div className="mt-2 flex flex-col gap-0.5">
-                    {item.data.location && (
-                      <p className="font-[family-name:var(--font-mono)] text-xs tracking-widest uppercase text-red">
-                        {item.data.location}
-                      </p>
-                    )}
-                    {item.data.caption && (
-                      <p className="font-[family-name:var(--font-mono)] text-xs tracking-wider uppercase text-navy/30">
-                        {item.data.caption}
-                      </p>
-                    )}
-                  </div>
-                )}
               </>
             ) : (
               <>
@@ -125,11 +110,6 @@ export default function ImageLightbox({ images, albumTitle, videos = [] }: Props
                     </div>
                   </div>
                 </div>
-                {item.data.caption && (
-                  <p className="mt-2 font-[family-name:var(--font-mono)] text-xs tracking-wider uppercase text-navy/30">
-                    {item.data.caption}
-                  </p>
-                )}
               </>
             )}
           </div>

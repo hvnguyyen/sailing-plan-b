@@ -58,33 +58,14 @@ export const albumType = defineType({
         {
           type: 'image',
           options: { hotspot: true },
-          fields: [
-            defineField({
-              name: 'alt',
-              title: 'Alternative text',
-              type: 'string',
-            }),
-            defineField({
-              name: 'caption',
-              title: 'Caption',
-              type: 'string',
-            }),
-            defineField({
-              name: 'location',
-              title: 'Location',
-              type: 'string',
-              description: 'Optional — e.g. "Bryggen, Bergen"',
-            }),
-          ],
           preview: {
             select: {
               asset: 'asset',
-              alt: 'alt',
               filename: 'asset->originalFilename',
             },
-            prepare({ asset, alt, filename }: Record<string, any>) {
+            prepare({ asset, filename }: Record<string, any>) {
               return {
-                title: alt || filename || 'Image',
+                title: filename || 'Image',
                 media: asset ? { _type: 'image', asset } : undefined,
               } as any
             },
@@ -106,20 +87,14 @@ export const albumType = defineType({
               type: 'file',
               options: { accept: 'video/*' },
             }),
-            defineField({
-              name: 'caption',
-              title: 'Caption',
-              type: 'string',
-            }),
           ],
           preview: {
             select: {
-              caption: 'caption',
               filename: 'file.asset->originalFilename',
               url: 'file.asset->url',
             },
-            prepare({ caption, filename, url }: Record<string, any>) {
-              const name = caption || filename || (url ? (url as string).split('/').pop()?.split('?')[0] : 'Video')
+            prepare({ filename, url }: Record<string, any>) {
+              const name = filename || (url ? (url as string).split('/').pop()?.split('?')[0] : 'Video')
               const VideoMedia = url
                 ? () => React.createElement('video', {
                     src: `${url}#t=0.001`,
