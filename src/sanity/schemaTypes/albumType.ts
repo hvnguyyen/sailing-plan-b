@@ -78,16 +78,15 @@ export const albumType = defineType({
           ],
           preview: {
             select: {
-              url: 'asset->url',
+              asset: 'asset',
               alt: 'alt',
               filename: 'asset->originalFilename',
             },
-            prepare({ url, alt, filename }: Record<string, any>) {
-              const name = alt || filename || (url ? (url as string).split('/').pop() : 'Image')
-              const ImageMedia = url
-                ? () => React.createElement('img', { src: url, style: { width: '100%', height: '100%', objectFit: 'cover' } })
-                : undefined
-              return { title: name, media: ImageMedia as any }
+            prepare({ asset, alt, filename }: Record<string, any>) {
+              return {
+                title: alt || filename || 'Image',
+                media: asset ? { _type: 'image', asset } : undefined,
+              } as any
             },
           },
         },
