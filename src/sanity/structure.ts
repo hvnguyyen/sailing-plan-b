@@ -41,7 +41,10 @@ export const structure: StructureResolver = (S) =>
                   S.menuItem()
                     .title('Edit parent album')
                     .icon(EditIcon)
-                    .intent({ type: 'edit', params: { id: parentId, type: 'album' } }),
+                    .showAsAction(false)
+                    .action(() => {
+                      window.location.href = `/studio/intent/edit/id=${parentId};type=album/`
+                    }),
                 ])
             )
         ),
