@@ -33,7 +33,7 @@ export function SubAlbumsView({ documentId, document: doc }: Props) {
   useEffect(() => {
     client
       .fetch<SubAlbum[]>(
-        `*[_type == "album" && parentAlbum._ref == $parentId] | order(date asc, title asc) { _id, title, location, date }`,
+        `*[_type == "album" && parentAlbum._ref == $parentId && !(_id in path("drafts.**"))] | order(date asc, title asc) { _id, title, location, date }`,
         { parentId: documentId }
       )
       .then(setSubAlbums)
