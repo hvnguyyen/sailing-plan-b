@@ -50,6 +50,7 @@ export default async function AlbumPage({
 
   const hasSubAlbums = album.subAlbums && album.subAlbums.length > 0
   const hasImages = album.images && album.images.length > 0
+  const hasVideos = album.videos && album.videos.length > 0
 
   return (
     <main className="bg-cream">
@@ -132,9 +133,9 @@ export default async function AlbumPage({
           </div>
         )}
 
-        {/* Images */}
-        {hasImages ? (
-          <ImageLightbox images={album.images} albumTitle={album.title} />
+        {/* Images + Videos */}
+        {hasImages || hasVideos ? (
+          <ImageLightbox images={album.images ?? []} albumTitle={album.title} videos={album.videos} />
         ) : !hasSubAlbums && (
           <p className="font-[family-name:var(--font-playfair)] text-2xl italic text-navy/30 text-center">
             No photos yet.

@@ -78,6 +78,35 @@ export const albumType = defineType({
         },
       ],
     }),
+    defineField({
+      name: 'videos',
+      title: 'Videos',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            defineField({
+              name: 'file',
+              title: 'Video file',
+              type: 'file',
+              options: { accept: 'video/*' },
+            }),
+            defineField({
+              name: 'caption',
+              title: 'Caption',
+              type: 'string',
+            }),
+          ],
+          preview: {
+            select: { title: 'caption' },
+            prepare({ title }: { title?: string }) {
+              return { title: title || 'Video' }
+            },
+          },
+        },
+      ],
+    }),
   ],
   preview: {
     select: {
