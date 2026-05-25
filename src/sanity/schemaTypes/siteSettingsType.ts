@@ -41,22 +41,6 @@ export const siteSettingsType = defineType({
       group: 'homepage',
     }),
 
-    // Plan B story
-    defineField({
-      name: 'planBStoryTitle',
-      title: 'About — Plan B story title',
-      type: 'string',
-      description: 'e.g. "It was always Plan A"',
-      group: 'about',
-    }),
-    defineField({
-      name: 'planBStoryText',
-      title: 'About — Plan B story text',
-      type: 'text',
-      rows: 4,
-      group: 'about',
-    }),
-
     // Ulrik
     defineField({
       name: 'ulrikImage',

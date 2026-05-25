@@ -50,19 +50,6 @@ export default async function AboutPage() {
       {/* Main content */}
       <section className="max-w-3xl mx-auto px-6 md:px-8 py-12 md:py-16 lg:py-24">
 
-        {/* The Plan B story */}
-        <div className="mb-10 md:mb-16 lg:mb-20">
-          <p className="font-[family-name:var(--font-mono)] text-xs tracking-[0.2em] uppercase text-red mb-3 md:mb-4">
-            On the name
-          </p>
-          <h2 className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl lg:text-4xl font-bold text-navy mb-4 md:mb-6">
-            {s?.planBStoryTitle || <><span className="italic whitespace-nowrap">It was always Plan A</span></>}
-          </h2>
-          <p className="font-[family-name:var(--font-lora)] text-base md:text-lg leading-relaxed text-navy/70 text-justify">
-            {s?.planBStoryText || 'The boat came with the name. But somewhere along the way, it started to make perfect sense, because this was never really a backup plan. Leaving the dock, trading routine for open water, learning as you go. For Ulrik and Karen, Plan B has always been the plan.'}
-          </p>
-        </div>
-
         {/* Crew cards */}
         <div className="grid md:grid-cols-2 gap-6 md:gap-8 mb-10 md:mb-16 lg:mb-20">
 

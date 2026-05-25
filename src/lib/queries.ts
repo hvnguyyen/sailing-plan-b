@@ -83,8 +83,6 @@ export const siteSettingsQuery = groq`
     heroImage,
     "heroImageLqip": heroImage.asset->metadata.lqip,
     currentLocation,
-    planBStoryTitle,
-    planBStoryText,
     ulrikImage,
     "ulrikImageLqip": ulrikImage.asset->metadata.lqip,
     ulrikName,
