@@ -41,15 +41,6 @@ export const siteSettingsType = defineType({
       group: 'homepage',
     }),
 
-    // About hero
-    defineField({
-      name: 'aboutSubtitle',
-      title: 'About — Hero subtitle',
-      type: 'string',
-      description: 'e.g. "Two people from Norway with one big idea."',
-      group: 'about',
-    }),
-
     // Plan B story
     defineField({
       name: 'planBStoryTitle',
