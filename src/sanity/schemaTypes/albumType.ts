@@ -78,13 +78,16 @@ export const albumType = defineType({
           ],
           preview: {
             select: {
+              url: 'asset->url',
               alt: 'alt',
               filename: 'asset->originalFilename',
             },
-            prepare({ alt, filename }: Record<string, any>) {
-              return {
-                title: alt || filename || 'Image',
-              }
+            prepare({ url, alt, filename }: Record<string, any>) {
+              const name = alt || filename || (url ? (url as string).split('/').pop() : 'Image')
+              const ImageMedia = url
+                ? () => React.createElement('img', { src: url, style: { width: '100%', height: '100%', objectFit: 'cover' } })
+                : undefined
+              return { title: name, media: ImageMedia as any }
             },
           },
         },
@@ -116,7 +119,8 @@ export const albumType = defineType({
               filename: 'file.asset->originalFilename',
               url: 'file.asset->url',
             },
-            prepare({ caption, filename, url }: { caption?: string; filename?: string; url?: string }) {
+            prepare({ caption, filename, url }: Record<string, any>) {
+              const name = caption || filename || (url ? (url as string).split('/').pop()?.split('?')[0] : 'Video')
               const VideoMedia = url
                 ? () => React.createElement('video', {
                     src: `${url}#t=0.001`,
@@ -125,10 +129,7 @@ export const albumType = defineType({
                     style: { width: '100%', height: '100%', objectFit: 'cover' },
                   })
                 : undefined
-              return {
-                title: caption || filename || 'Video',
-                media: VideoMedia,
-              }
+              return { title: name, media: VideoMedia as any }
             },
           },
         },
