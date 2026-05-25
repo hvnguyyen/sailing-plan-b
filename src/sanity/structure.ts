@@ -3,7 +3,6 @@ import {
   ImagesIcon, CogIcon, DocumentTextIcon,
   TagIcon, UserIcon,
 } from '@sanity/icons'
-import { SubAlbumsView } from './components/SubAlbumsView'
 
 export const structure: StructureResolver = (S) =>
   S.list()
@@ -25,16 +24,19 @@ export const structure: StructureResolver = (S) =>
         .title('Albums')
         .icon(ImagesIcon)
         .child(
+          // Column 1: top-level albums
           S.documentList()
             .title('Albums')
             .filter('_type == "album" && !defined(parentAlbum)')
             .child((parentId) =>
-              S.document()
-                .schemaType('album')
-                .documentId(parentId)
-                .views([
-                  S.view.form(),
-                  S.view.component(SubAlbumsView).title('Sub-albums').icon(ImagesIcon),
+              // Column 2: parent album + its sub-albums — click any to edit in column 3
+              S.documentList()
+                .title('Albums')
+                .filter('_id == $parentId || (_type == "album" && parentAlbum._ref == $parentId)')
+                .params({ parentId })
+                .defaultOrdering([{ field: '_createdAt', direction: 'asc' }])
+                .initialValueTemplates([
+                  S.initialValueTemplateItem('album-child', { parentId }),
                 ])
             )
         ),
