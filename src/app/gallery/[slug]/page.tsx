@@ -107,11 +107,6 @@ export default async function AlbumPage({
                     )}
                   </div>
                   <div className="pt-4">
-                    {sub.location && (
-                      <p className="font-[family-name:var(--font-mono)] text-xs tracking-widest uppercase text-red mb-1">
-                        {sub.location}
-                      </p>
-                    )}
                     {sub.date && (
                       <p className="font-[family-name:var(--font-mono)] text-xs tracking-widest uppercase text-navy/40 mb-1">
                         {new Date(sub.date).toLocaleDateString('en-GB', {
