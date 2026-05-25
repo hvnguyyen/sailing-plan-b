@@ -39,7 +39,7 @@ export default function ImageLightbox({ images, albumTitle, videos = [] }: Props
   const [lightboxIndex, setLightboxIndex] = useState(-1)
   const [activeVideo, setActiveVideo] = useState<string | null>(null)
   const itemRefs = useRef<(HTMLDivElement | null)[]>([])
-  const items = interleave(images, videos)
+  const items = interleave(images ?? [], videos ?? [])
 
   useEffect(() => {
     const observer = new IntersectionObserver(

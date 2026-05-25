@@ -135,7 +135,7 @@ export default async function AlbumPage({
 
         {/* Images + Videos */}
         {hasImages || hasVideos ? (
-          <ImageLightbox images={album.images ?? []} albumTitle={album.title} videos={album.videos} />
+          <ImageLightbox images={album.images ?? []} albumTitle={album.title} videos={album.videos ?? []} />
         ) : !hasSubAlbums && (
           <p className="font-[family-name:var(--font-playfair)] text-2xl italic text-navy/30 text-center">
             No photos yet.
