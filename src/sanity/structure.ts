@@ -1,8 +1,9 @@
 import type { StructureResolver } from 'sanity/structure'
 import {
   ImagesIcon, CogIcon, DocumentTextIcon,
-  TagIcon, UserIcon, EditIcon,
+  TagIcon, UserIcon,
 } from '@sanity/icons'
+import { SubAlbumsView } from './components/SubAlbumsView'
 
 export const structure: StructureResolver = (S) =>
   S.list()
@@ -24,27 +25,16 @@ export const structure: StructureResolver = (S) =>
         .title('Albums')
         .icon(ImagesIcon)
         .child(
-          // Column 1: only top-level (parent) albums
           S.documentList()
             .title('Albums')
             .filter('_type == "album" && !defined(parentAlbum)')
             .child((parentId) =>
-              // Column 2: sub-albums directly — edit parent via ⋯ menu at top of column
-              S.documentList()
-                .title('Sub-albums')
-                .filter('_type == "album" && parentAlbum._ref == $parentId')
-                .params({ parentId })
-                .initialValueTemplates([
-                  S.initialValueTemplateItem('album-child', { parentId }),
-                ])
-                .menuItems([
-                  S.menuItem()
-                    .title('Edit parent album')
-                    .icon(EditIcon)
-                    .showAsAction(false)
-                    .action(() => {
-                      window.location.href = `/studio/intent/edit/id=${parentId};type=album/`
-                    }),
+              S.document()
+                .schemaType('album')
+                .documentId(parentId)
+                .views([
+                  S.view.form(),
+                  S.view.component(SubAlbumsView).title('Sub-albums').icon(ImagesIcon),
                 ])
             )
         ),
