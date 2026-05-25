@@ -1,3 +1,4 @@
+import React from 'react'
 import { defineField, defineType } from 'sanity'
 import { ImagesIcon } from '@sanity/icons'
 import { BulkImageUpload } from '../components/BulkImageUpload'
@@ -75,6 +76,17 @@ export const albumType = defineType({
               description: 'Optional — e.g. "Bryggen, Bergen"',
             }),
           ],
+          preview: {
+            select: {
+              alt: 'alt',
+              filename: 'asset->originalFilename',
+            },
+            prepare({ alt, filename }: Record<string, any>) {
+              return {
+                title: alt || filename || 'Image',
+              }
+            },
+          },
         },
       ],
     }),
@@ -99,9 +111,24 @@ export const albumType = defineType({
             }),
           ],
           preview: {
-            select: { title: 'caption' },
-            prepare({ title }: { title?: string }) {
-              return { title: title || 'Video' }
+            select: {
+              caption: 'caption',
+              filename: 'file.asset->originalFilename',
+              url: 'file.asset->url',
+            },
+            prepare({ caption, filename, url }: { caption?: string; filename?: string; url?: string }) {
+              const VideoMedia = url
+                ? () => React.createElement('video', {
+                    src: `${url}#t=0.001`,
+                    preload: 'metadata',
+                    muted: true,
+                    style: { width: '100%', height: '100%', objectFit: 'cover' },
+                  })
+                : undefined
+              return {
+                title: caption || filename || 'Video',
+                media: VideoMedia,
+              }
             },
           },
         },
