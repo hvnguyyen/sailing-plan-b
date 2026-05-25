@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useClient } from 'sanity'
 import { usePaneRouter } from 'sanity/structure'
-import { Box, Button, Card, Flex, Stack, Text, Spinner } from '@sanity/ui'
+import { Box, Button, Card, Flex, Label, Stack, Text, Spinner } from '@sanity/ui'
 import { AddIcon, ChevronRightIcon } from '@sanity/icons'
 
 interface SubAlbum {
@@ -15,11 +15,19 @@ interface SubAlbum {
 
 interface Props {
   documentId: string
+  document: {
+    displayed: {
+      _id?: string
+      title?: string
+      location?: string
+    }
+  }
 }
 
-export function SubAlbumsView({ documentId }: Props) {
+export function SubAlbumsView({ documentId, document: doc }: Props) {
   const client = useClient({ apiVersion: '2024-05-01' })
   const paneRouter = usePaneRouter()
+  const { ChildLink } = paneRouter
   const [subAlbums, setSubAlbums] = useState<SubAlbum[] | null>(null)
 
   useEffect(() => {
@@ -31,6 +39,16 @@ export function SubAlbumsView({ documentId }: Props) {
       .then(setSubAlbums)
   }, [client, documentId])
 
+  const handleNewSubAlbum = async () => {
+    const newId = crypto.randomUUID()
+    await client.create({
+      _type: 'album',
+      _id: `drafts.${newId}`,
+      parentAlbum: { _type: 'reference', _ref: documentId },
+    })
+    paneRouter.navigateIntent('edit', { id: newId, type: 'album' })
+  }
+
   if (subAlbums === null) {
     return (
       <Flex padding={5} justify="center" align="center">
@@ -39,54 +57,69 @@ export function SubAlbumsView({ documentId }: Props) {
     )
   }
 
+  const parent = doc.displayed
+
   return (
     <Box padding={4}>
       <Stack space={4}>
-        <Flex align="center" justify="flex-end">
-          <Button
-            icon={AddIcon}
-            text="New sub-album"
-            tone="primary"
-            mode="ghost"
-            fontSize={1}
-            onClick={() =>
-              paneRouter.navigateIntent('create', {
-                type: 'album',
-                template: 'album-child',
-                parentId: documentId,
-              })
-            }
-          />
-        </Flex>
-        {subAlbums.length === 0 ? (
-          <Card padding={4} tone="transparent" border radius={2}>
-            <Text size={1} muted>No sub-albums yet.</Text>
+
+        {/* Parent section */}
+        <Stack space={2}>
+          <Label size={0} muted>Parent</Label>
+          <Card padding={3} radius={2} border tone="transparent">
+            <Stack space={1}>
+              <Text size={2} weight="medium">{parent.title ?? 'Untitled'}</Text>
+              {parent.location && <Text size={1} muted>{parent.location}</Text>}
+            </Stack>
           </Card>
-        ) : (
-          <Stack space={1}>
-            {subAlbums.map(album => (
-              <Card
-                key={album._id}
-                padding={3}
-                radius={2}
-                border
-                tone="default"
-                style={{ cursor: 'pointer' }}
-                onClick={() =>
-                  paneRouter.navigateIntent('edit', { id: album._id, type: 'album' })
-                }
-              >
-                <Flex align="center" justify="space-between">
-                  <Stack space={1}>
-                    <Text size={2} weight="medium">{album.title}</Text>
-                    {album.location && <Text size={1} muted>{album.location}</Text>}
-                  </Stack>
-                  <Text muted size={2}><ChevronRightIcon /></Text>
-                </Flex>
-              </Card>
-            ))}
-          </Stack>
-        )}
+        </Stack>
+
+        <Box style={{ borderTop: '1px solid var(--card-border-color)' }} />
+
+        {/* Sub-albums section */}
+        <Stack space={2}>
+          <Flex align="center" justify="space-between">
+            <Label size={0} muted>Sub-albums</Label>
+            <Button
+              icon={AddIcon}
+              text="New"
+              tone="primary"
+              mode="ghost"
+              fontSize={1}
+              onClick={handleNewSubAlbum}
+            />
+          </Flex>
+
+          {subAlbums.length === 0 ? (
+            <Card padding={4} tone="transparent" border radius={2}>
+              <Text size={1} muted>No sub-albums yet.</Text>
+            </Card>
+          ) : (
+            <Stack space={1}>
+              {subAlbums.map(album => (
+                <ChildLink key={album._id} childId={album._id}>
+                  <Card
+                    padding={3}
+                    radius={2}
+                    border
+                    tone="default"
+                    as="a"
+                    style={{ cursor: 'pointer', textDecoration: 'none', display: 'block' }}
+                  >
+                    <Flex align="center" justify="space-between">
+                      <Stack space={1}>
+                        <Text size={2} weight="medium">{album.title}</Text>
+                        {album.location && <Text size={1} muted>{album.location}</Text>}
+                      </Stack>
+                      <Text muted size={2}><ChevronRightIcon /></Text>
+                    </Flex>
+                  </Card>
+                </ChildLink>
+              ))}
+            </Stack>
+          )}
+        </Stack>
+
       </Stack>
     </Box>
   )
