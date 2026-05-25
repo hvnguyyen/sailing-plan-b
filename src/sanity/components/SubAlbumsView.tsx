@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useClient } from 'sanity'
-import { IntentLink } from 'sanity/router'
+import { usePaneRouter } from 'sanity/structure'
 import { Box, Button, Card, Flex, Stack, Text, Spinner } from '@sanity/ui'
 import { AddIcon, ChevronRightIcon } from '@sanity/icons'
 
@@ -19,6 +19,7 @@ interface Props {
 
 export function SubAlbumsView({ documentId }: Props) {
   const client = useClient({ apiVersion: '2024-05-01' })
+  const paneRouter = usePaneRouter()
   const [subAlbums, setSubAlbums] = useState<SubAlbum[] | null>(null)
 
   useEffect(() => {
@@ -42,20 +43,20 @@ export function SubAlbumsView({ documentId }: Props) {
     <Box padding={4}>
       <Stack space={4}>
         <Flex align="center" justify="flex-end">
-          <IntentLink
-            intent="create"
-            params={{ type: 'album', template: 'album-child', parentId: documentId }}
-            style={{ textDecoration: 'none' }}
-          >
-            <Button
-              as="span"
-              icon={AddIcon}
-              text="New sub-album"
-              tone="primary"
-              mode="ghost"
-              fontSize={1}
-            />
-          </IntentLink>
+          <Button
+            icon={AddIcon}
+            text="New sub-album"
+            tone="primary"
+            mode="ghost"
+            fontSize={1}
+            onClick={() =>
+              paneRouter.navigateIntent('create', {
+                type: 'album',
+                template: 'album-child',
+                parentId: documentId,
+              })
+            }
+          />
         </Flex>
         {subAlbums.length === 0 ? (
           <Card padding={4} tone="transparent" border radius={2}>
@@ -64,28 +65,25 @@ export function SubAlbumsView({ documentId }: Props) {
         ) : (
           <Stack space={1}>
             {subAlbums.map(album => (
-              <IntentLink
+              <Card
                 key={album._id}
-                intent="edit"
-                params={{ id: album._id, type: 'album' }}
-                style={{ textDecoration: 'none', display: 'block' }}
+                padding={3}
+                radius={2}
+                border
+                tone="default"
+                style={{ cursor: 'pointer' }}
+                onClick={() =>
+                  paneRouter.navigateIntent('edit', { id: album._id, type: 'album' })
+                }
               >
-                <Card
-                  padding={3}
-                  radius={2}
-                  border
-                  tone="default"
-                  style={{ cursor: 'pointer' }}
-                >
-                  <Flex align="center" justify="space-between">
-                    <Stack space={1}>
-                      <Text size={2} weight="medium">{album.title}</Text>
-                      {album.location && <Text size={1} muted>{album.location}</Text>}
-                    </Stack>
-                    <Text muted size={2}><ChevronRightIcon /></Text>
-                  </Flex>
-                </Card>
-              </IntentLink>
+                <Flex align="center" justify="space-between">
+                  <Stack space={1}>
+                    <Text size={2} weight="medium">{album.title}</Text>
+                    {album.location && <Text size={1} muted>{album.location}</Text>}
+                  </Stack>
+                  <Text muted size={2}><ChevronRightIcon /></Text>
+                </Flex>
+              </Card>
             ))}
           </Stack>
         )}
