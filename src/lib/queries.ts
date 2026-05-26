@@ -57,10 +57,10 @@ export const albumBySlugQuery = groq`
     "coverLqip": coverImage.asset->metadata.lqip,
     description,
     "parentAlbum": parentAlbum->{ title, "slug": slug.current },
-    videos[] {
+    "videos": videos[defined(file.asset)] {
       "url": file.asset->url,
     },
-    images[] {
+    "images": images[defined(asset)] {
       asset,
       "lqip": asset->metadata.lqip,
     },

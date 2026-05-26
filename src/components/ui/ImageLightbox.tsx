@@ -58,18 +58,14 @@ export default function ImageLightbox({ images, albumTitle, videos = [] }: Props
     return () => observer.disconnect()
   }, [items])
 
-  const slides = items.map((item) => {
+  const slides = items.flatMap((item) => {
     if (item.kind === 'image') {
-      return {
-        src: urlFor(item.data).width(1920).url(),
-        download: urlFor(item.data).width(1920).url(),
-        alt: albumTitle,
-      }
+      if (!item.data?.asset) return []
+      const url = urlFor(item.data).width(1920).url()
+      return [{ src: url, download: url, alt: albumTitle }]
     } else {
-      return {
-        type: 'video' as const,
-        sources: [{ src: item.data.url, type: 'video/mp4' }],
-      }
+      if (!item.data?.url) return []
+      return [{ type: 'video' as const, sources: [{ src: item.data.url, type: 'video/mp4' }] }]
     }
   })
 
