@@ -38,7 +38,9 @@ function interleave(images: any[], videos: VideoItem[]): MediaItem[] {
 export default function ImageLightbox({ images, albumTitle, videos = [] }: Props) {
   const [lightboxIndex, setLightboxIndex] = useState(-1)
   const itemRefs = useRef<(HTMLDivElement | null)[]>([])
-  const items = interleave(images ?? [], videos ?? [])
+  const items = interleave(images ?? [], videos ?? []).filter(item =>
+    item.kind === 'image' ? !!item.data?.asset : !!item.data?.url
+  )
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -58,14 +60,12 @@ export default function ImageLightbox({ images, albumTitle, videos = [] }: Props
     return () => observer.disconnect()
   }, [items])
 
-  const slides = items.flatMap((item) => {
+  const slides = items.map((item) => {
     if (item.kind === 'image') {
-      if (!item.data?.asset) return []
       const url = urlFor(item.data).width(1920).url()
-      return [{ src: url, download: url, alt: albumTitle }]
+      return { src: url, download: url, alt: albumTitle }
     } else {
-      if (!item.data?.url) return []
-      return [{ type: 'video' as const, sources: [{ src: item.data.url, type: 'video/mp4' }] }]
+      return { type: 'video' as const, sources: [{ src: item.data.url, type: 'video/mp4' }] }
     }
   })
 
