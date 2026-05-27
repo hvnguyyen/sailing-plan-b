@@ -17,7 +17,7 @@ function InstagramIcon() {
   )
 }
 
-export const revalidate = 60
+export const dynamic = 'force-dynamic'
 
 export default async function AboutPage() {
   const s = await client.fetch(siteSettingsQuery, {}, { cache: 'no-store' })

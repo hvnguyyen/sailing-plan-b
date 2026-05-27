@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   description: 'The sailing log, written from wherever Plan B happens to be.',
 }
 
-export const revalidate = 60
+export const dynamic = 'force-dynamic'
 
 export default async function BlogPage() {
   const [posts, settings] = await Promise.all([
