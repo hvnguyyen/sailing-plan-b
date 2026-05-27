@@ -78,7 +78,7 @@ export const albumBySlugQuery = groq`
 `
 
 export const siteSettingsQuery = groq`
-  *[_type == "siteSettings"][0] {
+  *[_type == "siteSettings" && _id == "siteSettings"][0] {
     "heroVideoUrl": heroVideo.asset->url,
     heroImage,
     "heroImageLqip": heroImage.asset->metadata.lqip,
