@@ -45,18 +45,23 @@ function getVesselPosition(): Promise<{ lat: number; lon: number } | null> {
   })
 }
 
-async function reverseGeocode(lat: number, lon: number): Promise<string | null> {
-  const res = await fetch(
-    `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`,
-    { headers: { 'User-Agent': 'sailing-planb/1.0 (hvnguyen.work@gmail.com)' } }
-  )
-  if (!res.ok) return null
-  const data = await res.json()
-  const addr = data.address ?? {}
-  const place = addr.city ?? addr.town ?? addr.village ?? addr.hamlet ?? addr.municipality ?? addr.county ?? addr.state
-  const country = addr.country
-  if (!place && !country) return null
-  return [place, country].filter(Boolean).join(', ')
+async function reverseGeocode(lat: number, lon: number): Promise<string> {
+  try {
+    const res = await fetch(
+      `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`,
+      { headers: { 'User-Agent': 'sailing-planb/1.0 (hvnguyen.work@gmail.com)' } }
+    )
+    if (!res.ok) return 'At sea'
+    const data = await res.json()
+    if (data.error) return 'At sea'
+    const addr = data.address ?? {}
+    const place = addr.city ?? addr.town ?? addr.village ?? addr.hamlet ?? addr.municipality ?? addr.county ?? addr.state
+    const country = addr.country
+    if (!place && !country) return 'At sea'
+    return [place, country].filter(Boolean).join(', ')
+  } catch {
+    return 'At sea'
+  }
 }
 
 async function updateSanityLocation(location: string) {
@@ -79,10 +84,6 @@ export async function GET() {
   }
 
   const location = await reverseGeocode(position.lat, position.lon)
-  if (!location) {
-    return NextResponse.json({ ok: false, reason: 'reverse geocoding failed', position })
-  }
-
   await updateSanityLocation(location)
   return NextResponse.json({ ok: true, location, position, marinetraffic: MARINETRAFFIC_URL })
 }
