@@ -1,0 +1,14 @@
+name: Update vessel location
+
+on:
+  schedule:
+    - cron: '0 */2 * * *'
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch location from AIS
+        run: |
+          curl -f https://www.sailing-planb.com/api/update-location
