@@ -53,13 +53,13 @@ export default async function Home() {
                 href="https://www.marinetraffic.com/en/ais/details/ships/shipid:10609272/mmsi:257748150/imo:0/vessel:PLAN_B"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2"
+                className="group inline-flex items-center gap-2"
               >
                 <span className="relative flex h-2 w-2 flex-shrink-0">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-light opacity-90"></span>
                   <span className="relative inline-flex h-2 w-2 rounded-full bg-red-light"></span>
                 </span>
-                <span className="opacity-70 hover:opacity-100 transition-opacity duration-200">
+                <span className="group-hover:text-sand transition-colors duration-200">
                   Currently in <span className="text-red-light">{settings.currentLocation}</span>
                 </span>
               </a>
