@@ -32,6 +32,13 @@ export default async function BlogPage() {
         <div className="max-w-3xl mx-auto px-8 pt-12 md:pt-16">
           <p className="font-[family-name:var(--font-mono)] text-xs tracking-[0.2em] uppercase text-navy/40 mb-4">
             Live position · <span className="text-red">{settings.currentLocation}</span>
+            {settings.currentLocationUpdatedAt && (
+              <span className="ml-2 text-navy/30">
+                · {new Date(settings.currentLocationUpdatedAt).toLocaleString('en-GB', {
+                  day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Oslo',
+                })}
+              </span>
+            )}
           </p>
           <div className="w-full h-72 md:h-96" style={{ isolation: 'isolate' }}>
             <VesselMapWrapper lat={settings.currentLat} lon={settings.currentLon} location={settings.currentLocation} />

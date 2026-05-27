@@ -42,6 +42,7 @@ export const siteSettingsType = defineType({
     }),
     defineField({ name: 'currentLat', title: 'Current latitude', type: 'number', group: 'homepage' }),
     defineField({ name: 'currentLon', title: 'Current longitude', type: 'number', group: 'homepage' }),
+    defineField({ name: 'currentLocationUpdatedAt', title: 'Current location — last updated', type: 'datetime', group: 'homepage' }),
 
     // Ulrik
     defineField({
