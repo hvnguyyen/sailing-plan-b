@@ -44,7 +44,7 @@ export default async function BlogPage() {
             <VesselMapWrapper lat={settings.currentLat} lon={settings.currentLon} location={settings.currentLocation} />
           </div>
           <p className="font-[family-name:var(--font-mono)] text-xs tracking-[0.15em] text-navy/30 mt-3">
-            Position may not be fully up to date —{' '}
+            Last known position —{' '}
             <a
               href="https://www.marinetraffic.com/en/ais/details/ships/shipid:10609272/mmsi:257748150/imo:0/vessel:PLAN_B"
               target="_blank"
