@@ -36,7 +36,8 @@ function getVesselPosition(): Promise<{ lat: number; lon: number } | null> {
       try {
         const msg = JSON.parse(data.toString())
         const pos = msg.Message?.PositionReport
-        if (pos?.Latitude && pos?.Longitude) {
+        const name: string = msg.MetaData?.ShipName ?? ''
+        if (pos?.Latitude && pos?.Longitude && name.toUpperCase().includes('PLAN B')) {
           const time = msg.MetaData?.time_utc
             ? new Date(msg.MetaData.time_utc).getTime()
             : Date.now()
@@ -57,7 +58,7 @@ async function reverseGeocode(lat: number, lon: number): Promise<string> {
   try {
     const res = await fetch(
       `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`,
-      { headers: { 'User-Agent': 'sailing-planb/1.0 (hvnguyen.work@gmail.com)' } }
+      { headers: { 'User-Agent': 'sailing-planb/1.0 (hvnguyen.work@gmail.com)', 'Accept-Language': 'en' } }
     )
     if (!res.ok) return 'At sea'
     const data = await res.json()
