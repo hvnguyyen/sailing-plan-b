@@ -2,56 +2,45 @@ import { NextResponse } from 'next/server'
 import WebSocket from 'ws'
 import { createClient } from 'next-sanity'
 
-export const maxDuration = 45
+export const maxDuration = 55
 
-const MMSI = 257748150
+const MMSI = '257748150'
 const MARINETRAFFIC_URL = 'https://www.marinetraffic.com/en/ais/details/ships/shipid:10609272/mmsi:257748150/imo:0/vessel:PLAN_B'
 
-type Candidate = { lat: number; lon: number; time: number; name: string }
-
-function getVesselPosition(): Promise<{ lat: number; lon: number; allNames: string[] } | null> {
+async function getVesselPosition(): Promise<{ lat: number; lon: number } | null> {
   return new Promise((resolve) => {
     const ws = new WebSocket('wss://stream.aisstream.io/v0/stream')
-    const candidates: Candidate[] = []
 
-    const finish = () => {
+    const finish = (result: { lat: number; lon: number } | null) => {
       ws.terminate()
-      if (candidates.length === 0) return resolve(null)
-      candidates.sort((a, b) => b.time - a.time)
-      const allNames = [...new Set(candidates.map(c => c.name.trim()).filter(Boolean))]
-      resolve({ lat: candidates[0].lat, lon: candidates[0].lon, allNames })
+      resolve(result)
     }
 
-    const collectTimeout = setTimeout(finish, 10000)
-    const hardTimeout = setTimeout(() => { clearTimeout(collectTimeout); finish() }, 28000)
+    const timeout = setTimeout(() => finish(null), 40000)
 
     ws.on('open', () => {
       ws.send(JSON.stringify({
         APIKey: process.env.AISSTREAM_API_KEY,
         BoundingBoxes: [[[-90, -180], [90, 180]]],
-        FilterMessageTypes: ['StandardClassBCSPositionReport'],
-        FilterMMSI: [MMSI],
+        FiltersShipMMSI: [MMSI],
+        FilterMessageTypes: ['PositionReport', 'StandardClassBPositionReport'],
       }))
     })
 
     ws.on('message', (data: WebSocket.RawData) => {
       try {
         const msg = JSON.parse(data.toString())
-        const pos = msg.Message?.StandardClassBCSPositionReport ?? msg.Message?.PositionReport
+        const pos = msg.Message?.StandardClassBPositionReport ?? msg.Message?.PositionReport
         if (pos?.Latitude && pos?.Longitude) {
-          const time = msg.MetaData?.time_utc
-            ? new Date(msg.MetaData.time_utc).getTime()
-            : Date.now()
-          const name: string = msg.MetaData?.ShipName ?? ''
-          candidates.push({ lat: pos.Latitude, lon: pos.Longitude, time, name })
+          clearTimeout(timeout)
+          finish({ lat: pos.Latitude, lon: pos.Longitude })
         }
       } catch { /* ignore */ }
     })
 
     ws.on('error', () => {
-      clearTimeout(collectTimeout)
-      clearTimeout(hardTimeout)
-      finish()
+      clearTimeout(timeout)
+      finish(null)
     })
   })
 }
@@ -96,5 +85,5 @@ export async function GET() {
 
   const location = await reverseGeocode(position.lat, position.lon)
   await updateSanityLocation(location)
-  return NextResponse.json({ ok: true, location, position, shipNames: position.allNames, marinetraffic: MARINETRAFFIC_URL })
+  return NextResponse.json({ ok: true, location, position, marinetraffic: MARINETRAFFIC_URL })
 }
