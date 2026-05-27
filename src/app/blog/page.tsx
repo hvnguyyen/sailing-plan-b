@@ -24,6 +24,19 @@ export default async function BlogPage() {
         </h1>
       </section>
 
+      <div className="max-w-3xl mx-auto px-8 pt-12 md:pt-16">
+        <p className="font-[family-name:var(--font-mono)] text-xs tracking-[0.2em] uppercase text-red mb-4">
+          Live position
+        </p>
+        <iframe
+          src="https://www.marinetraffic.com/en/ais/embed/zoom:6/centery:60/centerx:5/maptype:0/shownames:false/mmsi:257748150/shipid:10609272/fleet:/fleet_id:/vtypes:/showmenu:/remember:false"
+          width="100%"
+          height="550"
+          className="w-full border-0 block"
+          loading="lazy"
+        />
+      </div>
+
       <section className="max-w-3xl mx-auto px-8 py-16 md:py-20 lg:py-24">
         {posts.length === 0 ? (
           <div className="text-center">
