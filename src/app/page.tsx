@@ -60,7 +60,7 @@ export default async function Home() {
                   <span className="relative inline-flex h-2 w-2 rounded-full bg-red-light"></span>
                 </span>
                 <span className="group-hover:text-sand transition-colors duration-200">
-                  Currently in <span className="text-red-light">{settings.currentLocation}</span>
+                  Currently in <span className="text-red-light opacity-80 group-hover:opacity-100 transition-opacity duration-200">{settings.currentLocation}</span>
                 </span>
               </a>
             ) : 'Two people from Nøtterøy, Norway.'}
