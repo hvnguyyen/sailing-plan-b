@@ -29,7 +29,7 @@ function getVesselPosition(): Promise<{ lat: number; lon: number; allNames: stri
       ws.send(JSON.stringify({
         APIKey: process.env.AISSTREAM_API_KEY,
         BoundingBoxes: [[[-90, -180], [90, 180]]],
-        FilterMessageTypes: ['PositionReport'],
+        FilterMessageTypes: ['StandardClassBCSPositionReport'],
         FilterMMSI: [MMSI],
       }))
     })
@@ -37,7 +37,7 @@ function getVesselPosition(): Promise<{ lat: number; lon: number; allNames: stri
     ws.on('message', (data: WebSocket.RawData) => {
       try {
         const msg = JSON.parse(data.toString())
-        const pos = msg.Message?.PositionReport
+        const pos = msg.Message?.StandardClassBCSPositionReport ?? msg.Message?.PositionReport
         if (pos?.Latitude && pos?.Longitude) {
           const time = msg.MetaData?.time_utc
             ? new Date(msg.MetaData.time_utc).getTime()
