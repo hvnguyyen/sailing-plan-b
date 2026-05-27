@@ -10,10 +10,18 @@ const MARINETRAFFIC_URL = 'https://www.marinetraffic.com/en/ais/details/ships/sh
 function getVesselPosition(): Promise<{ lat: number; lon: number } | null> {
   return new Promise((resolve) => {
     const ws = new WebSocket('wss://stream.aisstream.io/v0/stream')
-    const timeout = setTimeout(() => {
+    const candidates: Array<{ lat: number; lon: number; time: number }> = []
+
+    const finish = () => {
       ws.terminate()
-      resolve(null)
-    }, 30000)
+      if (candidates.length === 0) return resolve(null)
+      candidates.sort((a, b) => b.time - a.time)
+      resolve({ lat: candidates[0].lat, lon: candidates[0].lon })
+    }
+
+    // Collect for 15s, then pick the most recently timestamped position
+    const collectTimeout = setTimeout(finish, 15000)
+    const hardTimeout = setTimeout(() => { clearTimeout(collectTimeout); finish() }, 28000)
 
     ws.on('open', () => {
       ws.send(JSON.stringify({
@@ -28,19 +36,19 @@ function getVesselPosition(): Promise<{ lat: number; lon: number } | null> {
       try {
         const msg = JSON.parse(data.toString())
         const pos = msg.Message?.PositionReport
-        if (pos && pos.Latitude && pos.Longitude) {
-          clearTimeout(timeout)
-          ws.terminate()
-          resolve({ lat: pos.Latitude, lon: pos.Longitude })
+        if (pos?.Latitude && pos?.Longitude) {
+          const time = msg.MetaData?.time_utc
+            ? new Date(msg.MetaData.time_utc).getTime()
+            : Date.now()
+          candidates.push({ lat: pos.Latitude, lon: pos.Longitude, time })
         }
-      } catch {
-        // ignore parse errors
-      }
+      } catch { /* ignore */ }
     })
 
     ws.on('error', () => {
-      clearTimeout(timeout)
-      resolve(null)
+      clearTimeout(collectTimeout)
+      clearTimeout(hardTimeout)
+      finish()
     })
   })
 }
