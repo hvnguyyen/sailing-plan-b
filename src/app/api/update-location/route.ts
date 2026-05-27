@@ -74,7 +74,8 @@ async function updateSanityLocation(location: string, lat: number, lon: number) 
   })
   const settings = await client.fetch<{ _id: string }>('*[_type == "siteSettings"][0]{ _id }')
   if (!settings?._id) throw new Error('siteSettings document not found')
-  await client.patch(settings._id).set({ currentLocation: location, currentLat: lat, currentLon: lon }).commit()
+  const publishedId = settings._id.replace(/^drafts\./, '')
+  await client.patch(publishedId).set({ currentLocation: location, currentLat: lat, currentLon: lon }).commit()
 }
 
 export async function GET() {

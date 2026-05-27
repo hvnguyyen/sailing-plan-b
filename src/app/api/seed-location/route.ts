@@ -12,7 +12,8 @@ export async function GET() {
   const settings = await client.fetch<{ _id: string }>('*[_type == "siteSettings"][0]{ _id }')
   if (!settings?._id) return NextResponse.json({ ok: false, reason: 'no siteSettings doc' })
 
-  const result = await client.patch(settings._id)
+  const publishedId = settings._id.replace(/^drafts\./, '')
+  const result = await client.patch(publishedId)
     .set({ currentLat: 60.378567, currentLon: 5.331538 })
     .commit()
 
