@@ -13,20 +13,20 @@ async function getVesselPosition(): Promise<{ position: { lat: number; lon: numb
     let connected = false
     let totalMessages = 0
     let wsError: string | null = null
+    const sampleMMSIs: string[] = []
 
     const finish = (position: { lat: number; lon: number } | null) => {
       ws.terminate()
-      resolve({ position, debug: { connected, totalMessages, wsError } })
+      resolve({ position, debug: { connected, totalMessages, wsError, sampleMMSIs } })
     }
 
-    const timeout = setTimeout(() => finish(null), 25000)
+    const timeout = setTimeout(() => finish(null), 10000)
 
     ws.on('open', () => {
       connected = true
       ws.send(JSON.stringify({
         APIKey: process.env.AISSTREAM_API_KEY,
         BoundingBoxes: [[[-90, -180], [90, 180]]],
-        FiltersShipMMSI: [MMSI],
         FilterMessageTypes: ['PositionReport', 'StandardClassBPositionReport'],
       }))
     })
@@ -35,10 +35,14 @@ async function getVesselPosition(): Promise<{ position: { lat: number; lon: numb
       totalMessages++
       try {
         const msg = JSON.parse(data.toString())
-        const pos = msg.Message?.StandardClassBPositionReport ?? msg.Message?.PositionReport
-        if (pos?.Latitude && pos?.Longitude) {
-          clearTimeout(timeout)
-          finish({ lat: pos.Latitude, lon: pos.Longitude })
+        const mmsi = msg.MetaData?.MMSI_String ?? msg.MetaData?.MMSI
+        if (mmsi && sampleMMSIs.length < 5) sampleMMSIs.push(String(mmsi))
+        if (String(mmsi) === MMSI) {
+          const pos = msg.Message?.StandardClassBPositionReport ?? msg.Message?.PositionReport
+          if (pos?.Latitude && pos?.Longitude) {
+            clearTimeout(timeout)
+            finish({ lat: pos.Latitude, lon: pos.Longitude })
+          }
         }
       } catch { /* ignore */ }
     })
