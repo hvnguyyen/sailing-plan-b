@@ -49,7 +49,14 @@ export default async function Home() {
 
           <p className="font-[family-name:var(--font-lora)] italic text-sand/70 text-base md:text-xl mt-4 md:mt-6 max-w-xs md:max-w-md mx-auto">
             {settings?.currentLocation ? (
-              <>Currently in <span className="text-red-light">{settings.currentLocation}</span></>
+              <a
+                href="https://www.marinetraffic.com/en/ais/details/ships/shipid:10609272/mmsi:257748150/imo:0/vessel:PLAN_B"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-sand transition-colors duration-200"
+              >
+                Currently in <span className="text-red-light">{settings.currentLocation}</span>
+              </a>
             ) : 'Two people from Nøtterøy, Norway.'}
           </p>
 
