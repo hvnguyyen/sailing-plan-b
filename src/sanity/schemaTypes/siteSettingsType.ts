@@ -40,6 +40,8 @@ export const siteSettingsType = defineType({
       description: 'e.g. "Bergen, Norway" — shown in the footer',
       group: 'homepage',
     }),
+    defineField({ name: 'currentLat', title: 'Current latitude', type: 'number', group: 'homepage' }),
+    defineField({ name: 'currentLon', title: 'Current longitude', type: 'number', group: 'homepage' }),
 
     // Ulrik
     defineField({

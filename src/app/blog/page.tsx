@@ -1,7 +1,8 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { client } from '@/lib/sanity'
-import { postsQuery } from '@/lib/queries'
+import { postsQuery, siteSettingsQuery } from '@/lib/queries'
+import VesselMapWrapper from '@/components/ui/VesselMapWrapper'
 
 export const metadata: Metadata = {
   title: 'Log',
@@ -11,7 +12,10 @@ export const metadata: Metadata = {
 export const revalidate = 60
 
 export default async function BlogPage() {
-  const posts = await client.fetch(postsQuery)
+  const [posts, settings] = await Promise.all([
+    client.fetch(postsQuery),
+    client.fetch(siteSettingsQuery),
+  ])
 
   return (
     <main className="bg-cream">
@@ -24,18 +28,16 @@ export default async function BlogPage() {
         </h1>
       </section>
 
-      <div className="max-w-3xl mx-auto px-8 pt-12 md:pt-16">
-        <p className="font-[family-name:var(--font-mono)] text-xs tracking-[0.2em] uppercase text-red mb-4">
-          Live position
-        </p>
-        <iframe
-          src="https://www.marinetraffic.com/en/ais/embed/zoom:6/centery:60/centerx:5/maptype:0/shownames:false/mmsi:257748150/shipid:10609272/fleet:/fleet_id:/vtypes:/showmenu:/remember:false"
-          width="100%"
-          height="550"
-          className="w-full border-0 block"
-          loading="lazy"
-        />
-      </div>
+      {settings?.currentLat && settings?.currentLon && (
+        <div className="max-w-3xl mx-auto px-8 pt-12 md:pt-16">
+          <p className="font-[family-name:var(--font-mono)] text-xs tracking-[0.2em] uppercase text-navy/40 mb-4">
+            Live position · <span className="text-red">{settings.currentLocation}</span>
+          </p>
+          <div className="w-full h-72 md:h-96">
+            <VesselMapWrapper lat={settings.currentLat} lon={settings.currentLon} location={settings.currentLocation} />
+          </div>
+        </div>
+      )}
 
       <section className="max-w-3xl mx-auto px-8 py-16 md:py-20 lg:py-24">
         {posts.length === 0 ? (

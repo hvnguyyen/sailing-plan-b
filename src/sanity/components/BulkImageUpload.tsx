@@ -4,7 +4,6 @@ import { useCallback, useRef, useState } from 'react'
 import { useClient, insert, PatchEvent } from 'sanity'
 import { Button, Stack, Flex, Text, Spinner } from '@sanity/ui'
 import { UploadIcon } from '@sanity/icons'
-import heic2any from 'heic2any'
 
 const BATCH_SIZE = 5
 
@@ -13,7 +12,9 @@ async function normalizeFile(file: File): Promise<File> {
     || /\.(heic|heif)$/i.test(file.name)
   if (!isHeic) return file
 
-  const converted = await heic2any({ blob: file, toType: 'image/jpeg', quality: 0.9 })
+  const lib = await import('heic2any')
+  const fn = (lib.default ?? lib) as typeof import('heic2any').default
+  const converted = await fn({ blob: file, toType: 'image/jpeg', quality: 0.9 })
   const blob = Array.isArray(converted) ? converted[0] : converted
   const jpgName = file.name.replace(/\.(heic|heif)$/i, '.jpg')
   return new File([blob], jpgName, { type: 'image/jpeg' })

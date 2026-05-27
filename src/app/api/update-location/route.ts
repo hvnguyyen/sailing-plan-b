@@ -64,7 +64,7 @@ async function reverseGeocode(lat: number, lon: number): Promise<string> {
   }
 }
 
-async function updateSanityLocation(location: string) {
+async function updateSanityLocation(location: string, lat: number, lon: number) {
   const client = createClient({
     projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
     dataset: process.env.NEXT_PUBLIC_SANITY_DATASET!,
@@ -74,7 +74,7 @@ async function updateSanityLocation(location: string) {
   })
   const settings = await client.fetch<{ _id: string }>('*[_type == "siteSettings"][0]{ _id }')
   if (!settings?._id) throw new Error('siteSettings document not found')
-  await client.patch(settings._id).set({ currentLocation: location }).commit()
+  await client.patch(settings._id).set({ currentLocation: location, currentLat: lat, currentLon: lon }).commit()
 }
 
 export async function GET() {
@@ -84,6 +84,6 @@ export async function GET() {
   }
 
   const location = await reverseGeocode(position.lat, position.lon)
-  await updateSanityLocation(location)
+  await updateSanityLocation(location, position.lat, position.lon)
   return NextResponse.json({ ok: true, location, position, marinetraffic: MARINETRAFFIC_URL })
 }
