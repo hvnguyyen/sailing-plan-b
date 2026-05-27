@@ -7,20 +7,22 @@ export const maxDuration = 45
 const MMSI = 257748150
 const MARINETRAFFIC_URL = 'https://www.marinetraffic.com/en/ais/details/ships/shipid:10609272/mmsi:257748150/imo:0/vessel:PLAN_B'
 
-function getVesselPosition(): Promise<{ lat: number; lon: number } | null> {
+type Candidate = { lat: number; lon: number; time: number; name: string }
+
+function getVesselPosition(): Promise<{ lat: number; lon: number; allNames: string[] } | null> {
   return new Promise((resolve) => {
     const ws = new WebSocket('wss://stream.aisstream.io/v0/stream')
-    const candidates: Array<{ lat: number; lon: number; time: number }> = []
+    const candidates: Candidate[] = []
 
     const finish = () => {
       ws.terminate()
       if (candidates.length === 0) return resolve(null)
       candidates.sort((a, b) => b.time - a.time)
-      resolve({ lat: candidates[0].lat, lon: candidates[0].lon })
+      const allNames = [...new Set(candidates.map(c => c.name.trim()).filter(Boolean))]
+      resolve({ lat: candidates[0].lat, lon: candidates[0].lon, allNames })
     }
 
-    // Collect for 15s, then pick the most recently timestamped position
-    const collectTimeout = setTimeout(finish, 15000)
+    const collectTimeout = setTimeout(finish, 10000)
     const hardTimeout = setTimeout(() => { clearTimeout(collectTimeout); finish() }, 28000)
 
     ws.on('open', () => {
@@ -36,12 +38,12 @@ function getVesselPosition(): Promise<{ lat: number; lon: number } | null> {
       try {
         const msg = JSON.parse(data.toString())
         const pos = msg.Message?.PositionReport
-        const name: string = msg.MetaData?.ShipName ?? ''
-        if (pos?.Latitude && pos?.Longitude && name.toUpperCase().includes('PLAN B')) {
+        if (pos?.Latitude && pos?.Longitude) {
           const time = msg.MetaData?.time_utc
             ? new Date(msg.MetaData.time_utc).getTime()
             : Date.now()
-          candidates.push({ lat: pos.Latitude, lon: pos.Longitude, time })
+          const name: string = msg.MetaData?.ShipName ?? ''
+          candidates.push({ lat: pos.Latitude, lon: pos.Longitude, time, name })
         }
       } catch { /* ignore */ }
     })
@@ -94,5 +96,5 @@ export async function GET() {
 
   const location = await reverseGeocode(position.lat, position.lon)
   await updateSanityLocation(location)
-  return NextResponse.json({ ok: true, location, position, marinetraffic: MARINETRAFFIC_URL })
+  return NextResponse.json({ ok: true, location, position, shipNames: position.allNames, marinetraffic: MARINETRAFFIC_URL })
 }
