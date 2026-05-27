@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import WebSocket from 'ws'
 import { createClient } from 'next-sanity'
 
-export const maxDuration = 55
+export const maxDuration = 45
 
 const MMSI = '257748150'
 const MARINETRAFFIC_URL = 'https://www.marinetraffic.com/en/ais/details/ships/shipid:10609272/mmsi:257748150/imo:0/vessel:PLAN_B'
@@ -16,7 +16,7 @@ async function getVesselPosition(): Promise<{ lat: number; lon: number } | null>
       resolve(result)
     }
 
-    const timeout = setTimeout(() => finish(null), 40000)
+    const timeout = setTimeout(() => finish(null), 25000)
 
     ws.on('open', () => {
       ws.send(JSON.stringify({
