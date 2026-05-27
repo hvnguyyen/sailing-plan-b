@@ -7,15 +7,16 @@ export const maxDuration = 45
 const MMSI = '257748150'
 const MARINETRAFFIC_URL = 'https://www.marinetraffic.com/en/ais/details/ships/shipid:10609272/mmsi:257748150/imo:0/vessel:PLAN_B'
 
-async function getVesselPosition(): Promise<{ lat: number; lon: number; debug: object } | null> {
+async function getVesselPosition(): Promise<{ position: { lat: number; lon: number } | null; debug: object }> {
   return new Promise((resolve) => {
     const ws = new WebSocket('wss://stream.aisstream.io/v0/stream')
     let connected = false
     let totalMessages = 0
+    let wsError: string | null = null
 
-    const finish = (result: { lat: number; lon: number; debug: object } | null) => {
+    const finish = (position: { lat: number; lon: number } | null) => {
       ws.terminate()
-      resolve(result)
+      resolve({ position, debug: { connected, totalMessages, wsError } })
     }
 
     const timeout = setTimeout(() => finish(null), 25000)
@@ -37,20 +38,16 @@ async function getVesselPosition(): Promise<{ lat: number; lon: number; debug: o
         const pos = msg.Message?.StandardClassBPositionReport ?? msg.Message?.PositionReport
         if (pos?.Latitude && pos?.Longitude) {
           clearTimeout(timeout)
-          finish({ lat: pos.Latitude, lon: pos.Longitude, debug: { connected, totalMessages } })
+          finish({ lat: pos.Latitude, lon: pos.Longitude })
         }
       } catch { /* ignore */ }
     })
 
     ws.on('error', (err) => {
       clearTimeout(timeout)
-      console.error('aisstream error', err)
+      wsError = String(err)
       finish(null)
     })
-
-    setTimeout(() => {
-      if (!connected) finish(null)
-    }, 5000)
   })
 }
 
@@ -88,13 +85,12 @@ async function updateSanityLocation(location: string, lat: number, lon: number) 
 }
 
 export async function GET() {
-  const position = await getVesselPosition()
+  const { position, debug } = await getVesselPosition()
   if (!position) {
-    return NextResponse.json({ ok: false, reason: 'no AIS position received within timeout' })
+    return NextResponse.json({ ok: false, reason: 'no AIS position received within timeout', debug })
   }
 
-  const { debug, ...coords } = position
-  const location = await reverseGeocode(coords.lat, coords.lon)
-  await updateSanityLocation(location, coords.lat, coords.lon)
-  return NextResponse.json({ ok: true, location, position: coords, debug, marinetraffic: MARINETRAFFIC_URL })
+  const location = await reverseGeocode(position.lat, position.lon)
+  await updateSanityLocation(location, position.lat, position.lon)
+  return NextResponse.json({ ok: true, location, position, debug, marinetraffic: MARINETRAFFIC_URL })
 }
