@@ -7,9 +7,15 @@ import 'leaflet/dist/leaflet.css'
 
 const vesselIcon = L.divIcon({
   className: '',
-  html: `<span style="display:block;width:12px;height:12px;border-radius:50%;background:#c0392b;border:2px solid white;box-shadow:0 0 0 2px #c0392b"></span>`,
-  iconSize: [12, 12],
-  iconAnchor: [6, 6],
+  html: `
+    <span style="position:relative;display:flex;width:16px;height:16px;align-items:center;justify-content:center">
+      <span style="position:absolute;width:16px;height:16px;border-radius:50%;background:#c0392b;opacity:0.4;animation:ping 1.5s cubic-bezier(0,0,0.2,1) infinite"></span>
+      <span style="position:relative;display:block;width:10px;height:10px;border-radius:50%;background:#c0392b;border:2px solid white"></span>
+    </span>
+    <style>@keyframes ping{75%,100%{transform:scale(2);opacity:0}}</style>
+  `,
+  iconSize: [16, 16],
+  iconAnchor: [8, 8],
 })
 
 function RecenterMap({ position }: { position: LatLngTuple }) {
