@@ -33,7 +33,7 @@ export default async function BlogPage() {
           <p className="font-[family-name:var(--font-mono)] text-xs tracking-[0.2em] uppercase text-navy/40 mb-4">
             Live position · <span className="text-red">{settings.currentLocation}</span>
           </p>
-          <div className="w-full h-72 md:h-96">
+          <div className="w-full h-72 md:h-96" style={{ isolation: 'isolate' }}>
             <VesselMapWrapper lat={settings.currentLat} lon={settings.currentLon} location={settings.currentLocation} />
           </div>
         </div>
