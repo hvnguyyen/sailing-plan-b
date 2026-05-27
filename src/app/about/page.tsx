@@ -20,7 +20,7 @@ function InstagramIcon() {
 export const revalidate = 60
 
 export default async function AboutPage() {
-  const s = await client.fetch(siteSettingsQuery)
+  const s = await client.fetch(siteSettingsQuery, {}, { cache: 'no-store' })
 
   const routeItems = s?.routeItems?.length > 0
     ? s.routeItems

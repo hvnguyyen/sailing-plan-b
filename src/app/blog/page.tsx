@@ -14,7 +14,7 @@ export const revalidate = 60
 export default async function BlogPage() {
   const [posts, settings] = await Promise.all([
     client.fetch(postsQuery),
-    client.fetch(siteSettingsQuery),
+    client.fetch(siteSettingsQuery, {}, { cache: 'no-store' }),
   ])
 
   return (

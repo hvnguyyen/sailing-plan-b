@@ -8,7 +8,7 @@ import { siteSettingsQuery } from '@/lib/queries'
 export const revalidate = 60
 
 export default async function Home() {
-  const settings = await client.fetch(siteSettingsQuery)
+  const settings = await client.fetch(siteSettingsQuery, {}, { cache: 'no-store' })
 
   return (
     <main>
