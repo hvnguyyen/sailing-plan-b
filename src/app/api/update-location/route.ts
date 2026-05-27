@@ -32,6 +32,12 @@ async function getVesselPosition(): Promise<{ lat: number; lon: number } | null>
         const msg = JSON.parse(data.toString())
         const pos = msg.Message?.StandardClassBPositionReport ?? msg.Message?.PositionReport
         if (pos?.Latitude && pos?.Longitude) {
+          // Reject positions older than 5 minutes — aisstream can serve stale cached data
+          const timeUtc = msg.MetaData?.time_utc
+          if (timeUtc) {
+            const ageMs = Date.now() - new Date(timeUtc).getTime()
+            if (ageMs > 5 * 60 * 1000) return
+          }
           clearTimeout(timeout)
           finish({ lat: pos.Latitude, lon: pos.Longitude })
         }
