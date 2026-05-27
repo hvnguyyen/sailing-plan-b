@@ -57,7 +57,7 @@ export default async function BlogPage() {
         </div>
       )}
 
-      <section className="max-w-3xl mx-auto px-8 py-16 md:py-20 lg:py-24">
+      <section className="max-w-3xl mx-auto px-8 pt-8 md:pt-10 pb-16 md:pb-20 lg:pb-24">
         {posts.length === 0 ? (
           <div className="text-center">
             <p className="font-[family-name:var(--font-playfair)] text-2xl md:text-3xl italic text-navy/30">
