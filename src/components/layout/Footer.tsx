@@ -20,12 +20,13 @@ export default function Footer() {
         <div className="flex flex-wrap justify-center gap-6 md:gap-8">
           <Link href="/" className={linkClass} onClick={scrollTop}>Home</Link>
           <Link href="/blog" className={linkClass} onClick={scrollTop}>Log</Link>
+          <Link href="/gallery" className={linkClass} onClick={scrollTop}>Gallery</Link>
           <Link href="/about" className={linkClass} onClick={scrollTop}>About</Link>
           <a
             href="https://www.instagram.com/sailing.planb"
             target="_blank"
             rel="noopener noreferrer"
-            className={linkClass}
+            className={`${linkClass} hidden md:inline`}
           >
             Instagram
           </a>
