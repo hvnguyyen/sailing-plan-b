@@ -120,6 +120,7 @@ export default async function AlbumPage({
                     </h2>
                     <p className="font-[family-name:var(--font-mono)] text-xs tracking-wider uppercase text-navy/30 mt-2">
                       {sub.imageCount} {sub.imageCount === 1 ? 'photo' : 'photos'}
+                      {sub.videoCount > 0 && `, ${sub.videoCount} ${sub.videoCount === 1 ? 'video' : 'videos'}`}
                     </p>
                   </div>
                 </Link>

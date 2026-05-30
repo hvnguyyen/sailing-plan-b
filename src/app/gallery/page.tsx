@@ -80,6 +80,7 @@ export default async function GalleryPage() {
                   )}
                   <p className="font-[family-name:var(--font-mono)] text-xs tracking-wider uppercase text-navy/30 mt-2">
                     {album.imageCount} {album.imageCount === 1 ? 'photo' : 'photos'}
+                    {album.videoCount > 0 && `, ${album.videoCount} ${album.videoCount === 1 ? 'video' : 'videos'}`}
                   </p>
                 </div>
               </Link>

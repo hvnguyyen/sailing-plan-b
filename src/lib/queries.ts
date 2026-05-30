@@ -42,6 +42,7 @@ export const albumsQuery = groq`
     "coverLqip": coverImage.asset->metadata.lqip,
     description,
     "imageCount": count(images),
+    "videoCount": count(videos[defined(file.asset)]),
     "subAlbumCount": count(*[_type == "album" && references(^._id)]),
   }
 `
@@ -73,6 +74,7 @@ export const albumBySlugQuery = groq`
       coverImage,
       "coverLqip": coverImage.asset->metadata.lqip,
       "imageCount": count(images),
+      "videoCount": count(videos[defined(file.asset)]),
     },
   }
 `
