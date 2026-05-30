@@ -1,8 +1,8 @@
 'use client'
 
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { useClient, insert, PatchEvent } from 'sanity'
-import { Button, Stack, Flex, Text, Spinner } from '@sanity/ui'
+import { Stack, Flex, Text, Spinner } from '@sanity/ui'
 import { UploadIcon } from '@sanity/icons'
 
 const BATCH_SIZE = 5
@@ -22,7 +22,6 @@ async function normalizeFile(file: File): Promise<File> {
 
 export function BulkImageUpload(props: any) {
   const client = useClient({ apiVersion: '2024-05-01' })
-  const inputRef = useRef<HTMLInputElement>(null)
   const [uploading, setUploading] = useState(false)
   const [progress, setProgress] = useState({ done: 0, total: 0 })
 
@@ -69,14 +68,6 @@ export function BulkImageUpload(props: any) {
   return (
     <Stack space={3}>
       {props.renderDefault(props)}
-      <input
-        ref={inputRef}
-        type="file"
-        multiple
-        accept="image/*,.heic,.heif"
-        style={{ display: 'none' }}
-        onChange={handleUpload}
-      />
       {uploading ? (
         <Flex align="center" gap={2} padding={2}>
           <Spinner />
@@ -85,13 +76,24 @@ export function BulkImageUpload(props: any) {
           </Text>
         </Flex>
       ) : (
-        <Button
-          icon={UploadIcon}
-          text="Upload multiple images"
-          mode="ghost"
-          tone="primary"
-          onClick={() => inputRef.current?.click()}
-        />
+        <label style={{ position: 'relative', display: 'block' }}>
+          <input
+            type="file"
+            multiple
+            accept="image/*"
+            style={{ position: 'absolute', inset: 0, opacity: 0, cursor: 'pointer', width: '100%', height: '100%' }}
+            onChange={handleUpload}
+          />
+          <Flex
+            align="center"
+            gap={2}
+            padding={3}
+            style={{ border: '1px solid var(--card-border-color)', borderRadius: 3, cursor: 'pointer' }}
+          >
+            <UploadIcon />
+            <Text size={1}>Upload multiple images</Text>
+          </Flex>
+        </label>
       )}
     </Stack>
   )
