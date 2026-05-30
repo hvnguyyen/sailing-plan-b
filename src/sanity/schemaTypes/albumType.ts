@@ -2,6 +2,7 @@ import React from 'react'
 import { defineField, defineType } from 'sanity'
 import { ImagesIcon } from '@sanity/icons'
 import { BulkImageUpload } from '../components/BulkImageUpload'
+import { BulkVideoUpload } from '../components/BulkVideoUpload'
 
 export const albumType = defineType({
   name: 'album',
@@ -77,6 +78,7 @@ export const albumType = defineType({
       name: 'videos',
       title: 'Videos',
       type: 'array',
+      components: { input: BulkVideoUpload },
       of: [
         {
           type: 'object',
