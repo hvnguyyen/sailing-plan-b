@@ -1,3 +1,4 @@
+import { notFound } from 'next/navigation'
 import { client, urlFor } from '@/lib/sanity'
 import { postBySlugQuery, postsQuery } from '@/lib/queries'
 import { PortableText } from '@portabletext/react'
@@ -48,7 +49,7 @@ export default async function PostPage({
   const { slug } = await params
   const post = await client.fetch(postBySlugQuery, { slug })
 
-  if (!post) return <div>Post not found</div>
+  if (!post) notFound()
 
   return (
     <main className="bg-cream">

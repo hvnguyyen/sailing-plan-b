@@ -1,3 +1,4 @@
+import { notFound } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 import { client, urlFor } from '@/lib/sanity'
@@ -46,7 +47,7 @@ export default async function AlbumPage({
   const { slug } = await params
   const album = await client.fetch(albumBySlugQuery, { slug })
 
-  if (!album) return <div>Album not found</div>
+  if (!album) notFound()
 
   const hasSubAlbums = album.subAlbums && album.subAlbums.length > 0
   const hasImages = album.images && album.images.length > 0
