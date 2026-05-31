@@ -7,22 +7,28 @@ import Download from 'yet-another-react-lightbox/plugins/download'
 import Video from 'yet-another-react-lightbox/plugins/video'
 import 'yet-another-react-lightbox/styles.css'
 import { urlFor } from '@/lib/sanity'
+import type { SanityAsset } from '@/lib/types'
+
+interface AlbumImage {
+  asset: SanityAsset
+  lqip?: string
+}
 
 interface VideoItem {
   url: string
 }
 
 interface Props {
-  images: any[]
+  images: AlbumImage[]
   albumTitle: string
   videos?: VideoItem[]
 }
 
 type MediaItem =
-  | { kind: 'image'; data: any }
+  | { kind: 'image'; data: AlbumImage }
   | { kind: 'video'; data: VideoItem }
 
-function interleave(images: any[], videos: VideoItem[]): MediaItem[] {
+function interleave(images: AlbumImage[], videos: VideoItem[]): MediaItem[] {
   const imageItems: MediaItem[] = images.map((data) => ({ kind: 'image', data }))
   if (!videos.length) return imageItems
 

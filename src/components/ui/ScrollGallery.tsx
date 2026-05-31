@@ -6,8 +6,9 @@ import Lightbox from 'yet-another-react-lightbox'
 import Download from 'yet-another-react-lightbox/plugins/download'
 import 'yet-another-react-lightbox/styles.css'
 import { urlFor } from '@/lib/sanity'
+import type { GalleryImage } from '@/lib/types'
 
-export default function ScrollGallery({ images = [] }: { images: any[] }) {
+export default function ScrollGallery({ images = [] }: { images: GalleryImage[] }) {
   const itemRefs = useRef<(HTMLDivElement | null)[]>([])
   const [lightboxIndex, setLightboxIndex] = useState(-1)
 

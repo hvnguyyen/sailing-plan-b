@@ -3,6 +3,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { client, urlFor } from '@/lib/sanity'
 import { albumsQuery } from '@/lib/queries'
+import type { Album } from '@/lib/types'
 
 export const metadata: Metadata = {
   title: 'Gallery',
@@ -12,7 +13,7 @@ export const metadata: Metadata = {
 export const revalidate = 60
 
 export default async function GalleryPage() {
-  const albums = await client.fetch(albumsQuery)
+  const albums: Album[] = await client.fetch(albumsQuery)
 
   return (
     <main className="bg-cream">
@@ -41,7 +42,7 @@ export default async function GalleryPage() {
             Albums
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            {albums.map((album: any) => (
+            {albums.map((album) => (
               <Link
                 key={album._id}
                 href={`/gallery/${album.slug.current}`}

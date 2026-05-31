@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { client } from '@/lib/sanity'
 import { postsQuery, siteSettingsQuery } from '@/lib/queries'
 import VesselMapWrapper from '@/components/ui/VesselMapWrapper'
+import type { Post, SiteSettings } from '@/lib/types'
 
 export const metadata: Metadata = {
   title: 'Log',
@@ -12,7 +13,7 @@ export const metadata: Metadata = {
 export const dynamic = 'force-dynamic'
 
 export default async function BlogPage() {
-  const [posts, settings] = await Promise.all([
+  const [posts, settings]: [Post[], SiteSettings] = await Promise.all([
     client.fetch(postsQuery),
     client.fetch(siteSettingsQuery, {}, { cache: 'no-store' }),
   ])
@@ -41,7 +42,7 @@ export default async function BlogPage() {
             )}
           </p>
           <div className="w-full h-72 md:h-96" style={{ isolation: 'isolate' }}>
-            <VesselMapWrapper lat={settings.currentLat} lon={settings.currentLon} location={settings.currentLocation} />
+            <VesselMapWrapper lat={settings.currentLat!} lon={settings.currentLon!} location={settings.currentLocation ?? ''} />
           </div>
           <p className="font-[family-name:var(--font-mono)] text-xs tracking-[0.15em] text-navy/30 mt-3">
             <a
@@ -68,7 +69,7 @@ export default async function BlogPage() {
           </div>
         ) : (
           <div className="divide-y divide-navy/10">
-            {posts.map((post: any) => (
+            {posts.map((post) => (
               <Link
                 key={post._id}
                 href={`/blog/${post.slug.current}`}

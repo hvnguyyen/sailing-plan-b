@@ -4,12 +4,13 @@ import Link from 'next/link'
 import { client, urlFor } from '@/lib/sanity'
 import { albumBySlugQuery, albumsQuery } from '@/lib/queries'
 import ImageLightbox from '@/components/ui/ImageLightbox'
+import type { Album, AlbumDetail } from '@/lib/types'
 
 export const revalidate = 60
 
 export async function generateStaticParams() {
-  const albums = await client.fetch(albumsQuery)
-  return albums.map((album: any) => ({ slug: album.slug.current }))
+  const albums: Album[] = await client.fetch(albumsQuery)
+  return albums.map((album) => ({ slug: album.slug.current }))
 }
 
 export async function generateMetadata({
@@ -45,7 +46,7 @@ export default async function AlbumPage({
   params: Promise<{ slug: string }>
 }) {
   const { slug } = await params
-  const album = await client.fetch(albumBySlugQuery, { slug })
+  const album: AlbumDetail = await client.fetch(albumBySlugQuery, { slug })
 
   if (!album) notFound()
 
@@ -82,7 +83,7 @@ export default async function AlbumPage({
               Albums
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-              {album.subAlbums.map((sub: any) => (
+              {album.subAlbums.map((sub) => (
                 <Link
                   key={sub._id}
                   href={`/gallery/${sub.slug.current}`}

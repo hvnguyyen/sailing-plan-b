@@ -4,12 +4,13 @@ import { postBySlugQuery, postsQuery } from '@/lib/queries'
 import { PortableText } from '@portabletext/react'
 import Image from 'next/image'
 import Link from 'next/link'
+import type { Post, PostDetail } from '@/lib/types'
 
 export const revalidate = 60
 
 export async function generateStaticParams() {
-  const posts = await client.fetch(postsQuery)
-  return posts.map((post: any) => ({ slug: post.slug.current }))
+  const posts: Post[] = await client.fetch(postsQuery)
+  return posts.map((post) => ({ slug: post.slug.current }))
 }
 
 export async function generateMetadata({
@@ -47,7 +48,7 @@ export default async function PostPage({
   params: Promise<{ slug: string }>
 }) {
   const { slug } = await params
-  const post = await client.fetch(postBySlugQuery, { slug })
+  const post: PostDetail = await client.fetch(postBySlugQuery, { slug })
 
   if (!post) notFound()
 
