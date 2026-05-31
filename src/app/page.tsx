@@ -49,20 +49,13 @@ export default async function Home() {
 
           <p className="font-[family-name:var(--font-lora)] italic text-sand/70 text-base md:text-xl mt-4 md:mt-6 max-w-xs md:max-w-md mx-auto">
             {settings?.currentLocation ? (
-              <a
-                href="https://www.marinetraffic.com/en/ais/details/ships/shipid:10609272/mmsi:257748150/imo:0/vessel:PLAN_B"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group inline-flex items-center gap-2"
-              >
+              <span className="inline-flex items-center gap-2">
                 <span className="relative flex h-2 w-2 flex-shrink-0">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-light opacity-90"></span>
                   <span className="relative inline-flex h-2 w-2 rounded-full bg-red-light"></span>
                 </span>
-                <span className="group-hover:text-sand transition-colors duration-200">
-                  Currently in <span className="text-red-light opacity-80 group-hover:opacity-100 transition-opacity duration-200">{settings.currentLocation}</span>
-                </span>
-              </a>
+                Currently in <span className="text-red-light opacity-80">{settings.currentLocation}</span>
+              </span>
             ) : 'Two people from Nøtterøy, Norway.'}
           </p>
 
@@ -85,7 +78,7 @@ export default async function Home() {
         {/* Scroll indicator */}
         <div className="absolute bottom-8 md:bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
           <span className="font-[family-name:var(--font-mono)] text-[0.6rem] tracking-[0.2em] uppercase text-white/30">
-            Scroll for highlights
+            Scroll
           </span>
           <div className="w-px h-8 md:h-10 bg-gradient-to-b from-white/30 to-transparent" />
         </div>

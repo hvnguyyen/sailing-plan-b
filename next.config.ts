@@ -9,6 +9,9 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  experimental: {
+    optimizePackageImports: ['next-sanity', '@portabletext/react', '@sanity/client'],
+  },
 }
 
 export default nextConfig

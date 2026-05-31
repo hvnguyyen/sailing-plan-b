@@ -31,7 +31,7 @@ export default async function BlogPage() {
       {settings?.currentLat && settings?.currentLon && (
         <div className="max-w-3xl mx-auto px-8 pt-12 md:pt-16">
           <p className="font-[family-name:var(--font-mono)] text-xs tracking-[0.2em] uppercase text-navy/40 mb-4">
-            Live position · <span className="text-red">{settings.currentLocation}</span>
+            Last known position · <span className="text-red">{settings.currentLocation}</span>
             {settings.currentLocationUpdatedAt && (
               <span className="ml-2 text-navy/30">
                 · {new Date(settings.currentLocationUpdatedAt).toLocaleString('en-GB', {
@@ -44,14 +44,13 @@ export default async function BlogPage() {
             <VesselMapWrapper lat={settings.currentLat} lon={settings.currentLon} location={settings.currentLocation} />
           </div>
           <p className="font-[family-name:var(--font-mono)] text-xs tracking-[0.15em] text-navy/30 mt-3">
-            Last known position —{' '}
             <a
               href="https://www.marinetraffic.com/en/ais/details/ships/shipid:10609272/mmsi:257748150/imo:0/vessel:PLAN_B"
               target="_blank"
               rel="noopener noreferrer"
               className="underline hover:text-navy/60 transition-colors"
             >
-              see live on MarineTraffic
+              See live on MarineTraffic
             </a>
           </p>
         </div>
