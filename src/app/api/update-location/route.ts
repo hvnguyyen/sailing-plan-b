@@ -4,8 +4,8 @@ import { createClient } from 'next-sanity'
 
 export const maxDuration = 45
 
-const MMSI = '257748150'
-const MARINETRAFFIC_URL = 'https://www.marinetraffic.com/en/ais/details/ships/shipid:10609272/mmsi:257748150/imo:0/vessel:PLAN_B'
+const MMSI = process.env.VESSEL_MMSI!
+const MARINETRAFFIC_URL = process.env.VESSEL_MARINETRAFFIC_URL!
 
 async function getVesselPosition(): Promise<{ lat: number; lon: number } | null> {
   return new Promise((resolve) => {
