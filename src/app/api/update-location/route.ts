@@ -74,7 +74,7 @@ async function updateSanityLocation(location: string, lat: number, lon: number) 
   const client = createClient({
     projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
     dataset: process.env.NEXT_PUBLIC_SANITY_DATASET!,
-    apiVersion: '2024-01-01',
+    apiVersion: '2026-05-06',
     token: process.env.SANITY_API_TOKEN,
     useCdn: false,
   })
