@@ -28,7 +28,7 @@ export function BulkVideoUpload(props: any) {
             const asset = await client.assets.upload('file', file, { filename: file.name })
             return {
               _type: 'object',
-              _key: Math.random().toString(36).slice(2),
+              _key: crypto.randomUUID(),
               file: { _type: 'file', asset: { _type: 'reference', _ref: asset._id } },
             }
           }),
