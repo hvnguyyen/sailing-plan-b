@@ -5,21 +5,11 @@ import Image from 'next/image'
 import Lightbox from 'yet-another-react-lightbox'
 import Download from 'yet-another-react-lightbox/plugins/download'
 import 'yet-another-react-lightbox/styles.css'
-import { client, urlFor } from '@/lib/sanity'
-import { siteSettingsQuery } from '@/lib/queries'
+import { urlFor } from '@/lib/sanity'
 
-export default function ScrollGallery() {
+export default function ScrollGallery({ images = [] }: { images: any[] }) {
   const itemRefs = useRef<(HTMLDivElement | null)[]>([])
-  const [images, setImages] = useState<any[]>([])
   const [lightboxIndex, setLightboxIndex] = useState(-1)
-
-  useEffect(() => {
-    client.fetch(siteSettingsQuery).then((settings) => {
-      if (settings?.homeGallery) {
-        setImages(settings.homeGallery)
-      }
-    })
-  }, [])
 
   useEffect(() => {
     const observer = new IntersectionObserver(

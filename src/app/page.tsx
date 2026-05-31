@@ -84,7 +84,7 @@ export default async function Home() {
         </div>
 
       </section>
-      <ScrollGallery />
+      <ScrollGallery images={settings?.homeGallery ?? []} />
     </main>
   )
 }
