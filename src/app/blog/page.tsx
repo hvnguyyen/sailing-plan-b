@@ -30,7 +30,7 @@ export default async function BlogPage() {
 
       {settings?.currentLat && settings?.currentLon && (
         <div className="max-w-3xl mx-auto px-8 pt-12 md:pt-16">
-          <p className="font-[family-name:var(--font-mono)] text-xs tracking-[0.2em] uppercase text-navy/40 mb-4">
+          <p className="font-[family-name:var(--font-mono)] text-xs tracking-[0.2em] uppercase text-navy/40 mb-4 whitespace-nowrap overflow-hidden text-ellipsis">
             Last known position · <span className="text-red">{settings.currentLocation}</span>
             {settings.currentLocationUpdatedAt && (
               <span className="ml-2 text-navy/30">
